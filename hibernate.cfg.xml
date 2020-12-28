@@ -8,14 +8,9 @@
 
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-<<<<<<< HEAD
-        <!-- database connection URL -->
-        <property name="connection.url">jdbc:mysql://localhost:3306/webproject?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</property>
 
         <!-- database credentials URL -->
-=======
         <property name="connection.url">jdbc:mysql://localhost:3306/webproject?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</property>
->>>>>>> cfd22dac096ec49aef14b37cd6d8a95169cb6650
         <property name="connection.username">root</property>
         <property name="connection.password">root</property>
 
