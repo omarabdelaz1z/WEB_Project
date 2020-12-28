@@ -32,7 +32,5 @@
 
          <!-- <mapping class="Entities."/> -->
          <!-- <mapping class="Entities."/> -->
-
     </session-factory>
-
 </hibernate-configuration>
