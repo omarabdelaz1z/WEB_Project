@@ -33,32 +33,32 @@ public class Session extends HttpServlet {
         String password = request.getParameter("password");
 
         StaffMemberDAO staffMemberDAO = new StaffMemberDAO();
+        StudentDAO studentDAO = new StudentDAO();
+
         StaffMember staffMember = staffMemberDAO.validate(email, password);
+        Student student = studentDAO.validate(email, password);
 
-        if(isVerified) {
-            if (staffMember != null) {
-                session.setAttribute("currentStaffMember", staffMember);
-                response.sendRedirect("staff_home.jsp");
-            }
-
-            StudentDAO studentDAO = new StudentDAO();
-            Student student = studentDAO.validate(email, password);
-
-            if (student != null) {
-                session.setAttribute("currentStudent", student);
-                response.sendRedirect("student_home.jsp");
-            }
-
-            PrintWriter out = response.getWriter();
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
-            out.println("<font color=red>Either email or password is wrong.</font>");
-            rd.include(request, response);
+        if((isVerified) && (staffMember != null)){
+            session.setAttribute("currentStaffMember", staffMember);
+            response.sendRedirect("Staff_Successful.jsp");
         }
 
-        else{
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
+        else if((isVerified) && (student != null)){
+            session.setAttribute("currentStudent", student);
+            response.sendRedirect("Student_Successful.jsp");
+        }
+
+        else {
+            RequestDispatcher rd = getServletContext().getRequestDispatcher(
+                    "/login.html");
             PrintWriter out = response.getWriter();
-            out.println("<font color=red>You missed the Captcha.</font>");
+            // Ajax
+            if (isVerified)
+                out.println("<script> alert('Either user name or password is wrong')</script>");
+
+             else
+                out.println("<script> alert('You missed the Captcha.')</script>");
+
             rd.include(request, response);
         }
     }
