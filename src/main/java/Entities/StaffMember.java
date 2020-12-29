@@ -1,10 +1,27 @@
 package Entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="staffmembers",
+        uniqueConstraints = {@UniqueConstraint(columnNames =
+                {"ID"})})
 public class StaffMember {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="ID", nullable = false, unique = true)
     private String ID;
+
+    @Column(name = "name", nullable=false)
     private String name;
+
+    @Column(name = "email", nullable=false)
     private String email;
+
+    @Column(name = "password", nullable=false)
     private String password;
+
+    @Column(name = "type", nullable=false)
     private String type;
 
     public StaffMember(){
@@ -19,6 +36,15 @@ public class StaffMember {
         this.type = type;
     }
 
+    public StaffMember updateStudent(StaffMember staffMember){
+        this.ID = staffMember.getID();
+        this.name = staffMember.getName();
+        this.email = staffMember.getEmail();
+        this.password = staffMember.getPassword();
+        this.type = staffMember.getType();
+        return this;
+    }
+    
     public String getID() {
         return ID;
     }
