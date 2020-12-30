@@ -1,20 +1,21 @@
 package Entities.CRUD;
 
 import Database.HibernateUtil;
-import Entities.Student;
+import Entities.OfficeHour;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import java.util.List;
 
-public class StudentCRUD implements ICRUD<Student> {
+public class OfficeHourCRUD implements ICRUD <OfficeHour> {
     SessionFactory sessionFactory;
 
-    public StudentCRUD(HibernateUtil connection) {
+    public OfficeHourCRUD(HibernateUtil connection) {
         sessionFactory = connection.getFactory();
     }
 
     @Override
-    public Student create(Student object) {
+    public OfficeHour create(OfficeHour object) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.save(object);
@@ -23,50 +24,48 @@ public class StudentCRUD implements ICRUD<Student> {
     }
 
     @Override
-    public Student read(String ID) {
+    public OfficeHour read(String ID) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Student student =  session.get(Student.class, ID);
+        OfficeHour officeHour =  session.get(OfficeHour.class, ID);
         session.getTransaction().commit();
-        return student;
+        return officeHour;
     }
 
     @Override
-    public List<Student> read() {
+    public List<OfficeHour> read() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-
-        List<Student> students = session.createQuery("from Student").getResultList();
-
+        List<OfficeHour> officeHours = session.createQuery("from OfficeHour ").getResultList();
         session.getTransaction().commit();
-        return students;
+        return officeHours;
     }
 
     @Override
-    public Student update(String ID, Student object) {
+    public OfficeHour update(String ID, OfficeHour object) {
         object.setID(ID);
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Student student = session.get(Student.class, Integer.parseInt(ID));
-        student.updateStudent(object);
+        OfficeHour officeHour = session.get(OfficeHour.class, Integer.parseInt(ID));
+        officeHour.update(object);
         session.getTransaction().commit();
-        return student;
+        return officeHour;
     }
 
     @Override
     public void delete(String ID) {
         Session session = sessionFactory.getCurrentSession();
-        Student student = session.get(Student.class, Integer.parseInt(ID));
-        session.delete(student);
+        OfficeHour officeHour = session.get(OfficeHour.class, Integer.parseInt(ID));
+        session.delete(officeHour);
         session.getTransaction().commit();
     }
 
     @Override
-    public List<Student> query(String query) {
+    public List<OfficeHour> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Student> students = session.createQuery(query).getResultList();
+        List<OfficeHour> officeHours = session.createQuery(query).getResultList();
         session.getTransaction().commit();
-        return students;
+        return officeHours;
     }
 }
