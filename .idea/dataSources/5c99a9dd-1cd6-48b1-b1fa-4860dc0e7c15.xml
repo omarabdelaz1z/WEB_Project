@@ -1062,192 +1062,223 @@
     <table id="338" parent="9" name="reservations"/>
     <table id="339" parent="9" name="staffmembers"/>
     <table id="340" parent="9" name="students"/>
-    <column id="341" parent="336" name="ID">
+    <table id="341" parent="9" name="users"/>
+    <column id="342" parent="336" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="342" parent="336" name="sender">
+    <column id="343" parent="336" name="sender">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="343" parent="336" name="receiver">
+    <column id="344" parent="336" name="receiver">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="344" parent="336" name="subject">
+    <column id="345" parent="336" name="subject">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="345" parent="336" name="content">
+    <column id="346" parent="336" name="content">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="346" parent="336" name="sentDate">
+    <column id="347" parent="336" name="sentDate">
       <Position>6</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="347" parent="336" name="notifications_staffmembers_ID_fk">
+    <index id="348" parent="336" name="notifications_users_ID_fk">
       <ColNames>sender</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="348" parent="336" name="notifications_staffmembers_ID_fk_2">
+    <index id="349" parent="336" name="notifications_users_ID_fk_2">
       <ColNames>receiver</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="349" parent="336" name="PRIMARY">
+    <key id="350" parent="336" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="350" parent="336" name="notifications_staffmembers_ID_fk">
+    <foreign-key id="351" parent="336" name="notifications_users_ID_fk">
       <ColNames>sender</ColNames>
-      <RefTableName>staffmembers</RefTableName>
+      <RefTableName>users</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="351" parent="336" name="notifications_students_ID_fk">
-      <ColNames>sender</ColNames>
-      <RefTableName>students</RefTableName>
-      <RefColNames>ID</RefColNames>
-    </foreign-key>
-    <foreign-key id="352" parent="336" name="notifications_staffmembers_ID_fk_2">
+    <foreign-key id="352" parent="336" name="notifications_users_ID_fk_2">
       <ColNames>receiver</ColNames>
-      <RefTableName>staffmembers</RefTableName>
+      <RefTableName>users</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="353" parent="336" name="notifications_students_ID_fk_2">
-      <ColNames>receiver</ColNames>
-      <RefTableName>students</RefTableName>
-      <RefColNames>ID</RefColNames>
-    </foreign-key>
-    <column id="354" parent="337" name="ID">
+    <column id="353" parent="337" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="355" parent="337" name="staffMemberID">
+    <column id="354" parent="337" name="staffMemberID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="356" parent="337" name="status">
+    <column id="355" parent="337" name="status">
       <Position>3</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="357" parent="337" name="time">
+    <column id="356" parent="337" name="time">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="358" parent="337" name="location">
+    <column id="357" parent="337" name="location">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="359" parent="337" name="officehours_staffmembers_ID_fk">
+    <index id="358" parent="337" name="officehours_users_ID_fk">
       <ColNames>staffMemberID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="360" parent="337" name="PRIMARY">
+    <key id="359" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="361" parent="337" name="officehours_staffmembers_ID_fk">
+    <foreign-key id="360" parent="337" name="officehours_users_ID_fk">
       <ColNames>staffMemberID</ColNames>
-      <RefTableName>staffmembers</RefTableName>
+      <RefTableName>users</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="362" parent="338" name="ID">
+    <column id="361" parent="338" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="363" parent="338" name="fromDate">
+    <column id="362" parent="338" name="fromDate">
       <Position>2</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="364" parent="338" name="toDate">
+    <column id="363" parent="338" name="toDate">
       <Position>3</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="365" parent="338" name="status">
+    <column id="364" parent="338" name="status">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="366" parent="338" name="PRIMARY">
+    <key id="365" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="367" parent="339" name="ID">
+    <column id="366" parent="339" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="368" parent="339" name="name">
+    <column id="367" parent="339" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="369" parent="339" name="email">
+    <column id="368" parent="339" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="370" parent="339" name="password">
+    <column id="369" parent="339" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="371" parent="339" name="type">
+    <column id="370" parent="339" name="type">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="372" parent="339" name="PRIMARY">
+    <key id="371" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="373" parent="340" name="ID">
+    <column id="372" parent="340" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="374" parent="340" name="name">
+    <column id="373" parent="340" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="375" parent="340" name="email">
+    <column id="374" parent="340" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="376" parent="340" name="password">
+    <column id="375" parent="340" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="377" parent="340" name="PRIMARY">
+    <key id="376" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
+    </key>
+    <column id="377" parent="341" name="ID">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="378" parent="341" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="379" parent="341" name="email">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="380" parent="341" name="type">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="381" parent="341" name="password">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="382" parent="341" name="users_email_uindex">
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="383" parent="341" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="384" parent="341" name="users_email_uindex">
+      <ColNames>email</ColNames>
+      <UnderlyingIndexName>users_email_uindex</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>

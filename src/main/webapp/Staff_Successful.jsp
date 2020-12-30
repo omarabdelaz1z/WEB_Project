@@ -9,7 +9,7 @@
 </head>
 
 <%
-    StaffMember staffMember = (StaffMember) session.getAttribute("currentStaffMember");
+    StaffMember staffMember = (StaffMember) session.getAttribute("currentUser");
 %>
 
 <body>

@@ -8,11 +8,11 @@ import java.util.Properties;
 public class MailManager {
     private Properties properties;
     private Authenticator authenticator;
-    private final String fromEmail;
+    private final String fromEmail = "menotify89@gmail.com";
 
-    public MailManager(String fromEmail, String fromPassword){
-        this.fromEmail = fromEmail;
-        setParameters(fromEmail, fromPassword);
+    public MailManager(){
+        String fromPassword = "2Wsd8A8=[K";
+        setParameters(fromPassword);
     }
 
     public void sendEmail(String toEmail, String subject, String body){
@@ -45,8 +45,7 @@ public class MailManager {
 
         return message;
     }
-
-    private void setParameters(String fromEmail, String fromPassword){
+    private void setParameters(String fromPassword){
         properties = System.getProperties();
 
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -59,13 +58,5 @@ public class MailManager {
                 return new PasswordAuthentication(fromEmail, fromPassword);
             }
         };
-    }
-
-    public static void main(String[] args) {
-        String fromEmail = "menotify89@gmail.com";
-        String fromPassword = "2Wsd8A8=[K";
-
-        MailManager mailManager = new MailManager(fromEmail, fromPassword);
-        mailManager.sendEmail("fkcr49@gmail.com","Hello World", "Hello Hello Hello");
     }
 }

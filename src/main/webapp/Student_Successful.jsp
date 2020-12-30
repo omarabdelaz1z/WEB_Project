@@ -9,10 +9,7 @@
 </head>
 
 <%
-    Student student = (Student) session.getAttribute("currentStudent");
-
-    if(student == null)
-
+    Student student = (Student) session.getAttribute("currentUser");
 %>
 
 <body>
