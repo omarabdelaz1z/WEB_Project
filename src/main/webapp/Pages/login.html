@@ -15,9 +15,9 @@
   <body>
     <section class="l-card">
       <section class="page_inner">
-        <form action="" method="POST">
+        <form id="LoginForm" onsubmit="return false" action="" method="POST">
           <div>
-            <label>Email</label>
+            <label for="Email">Email</label>
             <input
               type="email"
               name="email"
@@ -27,7 +27,7 @@
           </div>
 
           <div>
-            <label>Password</label>
+            <label for="Password">Password</label>
             <input
               type="password"
               pattern=".{4,8}"
@@ -43,6 +43,10 @@
             class="g-recaptcha"
             data-sitekey="6LcI3QwaAAAAANdpEQAz_khIPz480V4i9UyPRi9f"
           ></div>
+
+          <div style="display: none;">
+            <label id="response"></label>
+          </div>
 
           <div>
             <input type="submit" name="submit" value="Login" />
