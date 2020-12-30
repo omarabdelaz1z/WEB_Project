@@ -28,5 +28,4 @@ public class NotificationDAO {
     public Notification createNotification(Notification notification){
         return notificationCRUD.create(notification);
     }
-
 }

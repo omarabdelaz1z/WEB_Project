@@ -34,13 +34,13 @@ public class SignUp extends HttpServlet {
 
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
 
-        String generatedPassword = TextGeneration.generatePassword(10);
+        String generatedPassword = TextGeneration.generatePassword(8);
 
         String content = "Hey "
                 +  name
-                + ", \nWelcome to the site, Here is your generated password: "
+                + ", \nWelcome to our website, Here is your password: "
                 + generatedPassword
-                + "  Use it to proceed.";
+                + "  Use it to proceed.\n\nStudent Management";
 
         System.out.println(generatedPassword);
 
@@ -48,17 +48,20 @@ public class SignUp extends HttpServlet {
         if(isVerified) {
             if (type.equals("student")) {
                 UserDAO userDAO = new UserDAO();
-                Student student = (Student) userDAO.create(new Student(name, email, generatedPassword));
+                User user = userDAO.create(new User(name, email, generatedPassword,"Student"));
+                Student student = new Student(user);
                 session.setAttribute("currentUser", student);
 
             } else if (type.equals("staffMember")) {
                 UserDAO userDAO = new UserDAO();
-                StaffMember staffMember = (StaffMember) userDAO.create(new StaffMember(name, email, generatedPassword));
+                User user = userDAO.create(new User(name, email, generatedPassword,"STAFF"));
+                StaffMember staffMember = new StaffMember(user);
                 session.setAttribute("currentUser", staffMember);
             }
 
             response.sendRedirect("login.html");
         }
+
         else{
             RequestDispatcher rd = getServletContext().getRequestDispatcher("signup.html");
             PrintWriter out = response.getWriter();

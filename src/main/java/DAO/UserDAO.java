@@ -23,7 +23,7 @@ public class UserDAO {
         }
     }
 
-    public User create(User object){
+    public User create(User object) {
         return userCRUD.create(object);
     }
 }

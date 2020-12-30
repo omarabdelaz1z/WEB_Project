@@ -1,10 +1,10 @@
 package Entities.CRUD;
 
 import Database.HibernateUtil;
-import Entities.Student;
 import Entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 
@@ -19,9 +19,15 @@ public class UserCRUD implements ICRUD<User> {
     public User create(User object) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.save(object);
-        session.getTransaction().commit();
-        return object;
+        try {
+            session.save(object);
+            session.getTransaction().commit();
+            return object;
+        }
+        catch(ConstraintViolationException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
