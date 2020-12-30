@@ -5,31 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="../js/signup.js"></script>
+    <script src="../js/login.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../Styling/signup.css" />
-    <title>Signup</title>
+    <link rel="stylesheet" href="../Styling/login.css" />
+    <title>Login</title>
   </head>
   <body>
     <section class="l-card">
       <section class="page_inner">
-        <form id="registerForm">
-          <div>
-            <label>Name</label>
-            <input type="text" id="name" name="name" placeholder="Name" required />
-          </div>
-
+        <form id="loginForm">
           <div>
             <label>Email</label>
             <input
               type="email"
-              id="email"
               name="email"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              id="email"
               placeholder="example@outlook.com"
               required
             />
@@ -40,22 +34,12 @@
             <input
               type="password"
               pattern=".{4,8}"
-              id="password"
               name="password"
+              id="password"
               placeholder="Password"
               title="8 characters maximum"
               required
             />
-          </div>
-
-          <div>
-            <label>Type</label>
-
-            <input type="radio" id="type" name="type" value="student" required />
-            <label>Student</label>
-
-            <input type="radio" id="type" name="type" value="staffMember" required />
-            <label>Staff Member</label>
           </div>
 
           <div
@@ -66,11 +50,11 @@
           ></div>
 
           <div>
-            <label id="response"></label>
+            <p id="response"></p>
           </div>
 
           <div>
-            <input type="submit" id="signup" name="submit" value="Signup" />
+            <input type="submit" id="login" name="submit" value="Login" />
           </div>
         </form>
       </section>
