@@ -1,9 +1,9 @@
 package Servlets;
 
-import DAO.StaffMemberDAO;
-import DAO.StudentDAO;
+import DAO.UserDAO;
 import Entities.StaffMember;
 import Entities.Student;
+import Entities.User;
 import Utils.Recaptcha;
 
 import javax.servlet.RequestDispatcher;
@@ -32,27 +32,27 @@ public class Session extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        StaffMemberDAO staffMemberDAO = new StaffMemberDAO();
-        StudentDAO studentDAO = new StudentDAO();
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.validate(email, password);
 
-        StaffMember staffMember = staffMemberDAO.validate(email, password);
-        Student student = studentDAO.validate(email, password);
+        if((isVerified) && (user != null)) {
+            if(user.getType().equals("STUDENT")) {
+                Student student = new Student(user);
+                session.setAttribute("currentUser", student);
+                response.sendRedirect("Student_Successful.jsp");
+            }
 
-        if((isVerified) && (staffMember != null)){
-            session.setAttribute("currentStaffMember", staffMember);
-            response.sendRedirect("Staff_Successful.jsp");
-        }
-
-        else if((isVerified) && (student != null)){
-            session.setAttribute("currentStudent", student);
-            response.sendRedirect("Student_Successful.jsp");
+            else{
+                StaffMember staffMember = new StaffMember(user);
+                session.setAttribute("currentUser", staffMember);
+                response.sendRedirect("Staff_Successful.jsp");
+            }
         }
 
         else {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher(
-                    "/login.html");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
             PrintWriter out = response.getWriter();
-            // Ajax
+            // Ajax part
             if (isVerified)
                 out.println("<script> alert('Either user name or password is wrong')</script>");
 
