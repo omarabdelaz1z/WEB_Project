@@ -1,11 +1,28 @@
 package Entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "notifications", uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
 public class Notification {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false, unique = true)
     private String ID;
+
+    @Column(name = "sender", nullable=false)
     private String senderID;
+
+    @Column(name = "receiver", nullable=false)
     private String receiverID;
+
+    @Column(name = "subject", nullable=false)
     private String subject;
+
+    @Column(name = "content", nullable=false)
     private String content;
+
+    @Column(name = "sentDate", nullable=false)
     private String sentDate;
 
     public String getID() {

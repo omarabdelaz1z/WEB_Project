@@ -30,7 +30,10 @@
 
          <!-- Add Mapped class here -->
 
-         <!-- <mapping class="Entities."/> -->
-         <!-- <mapping class="Entities."/> -->
+        <mapping class="Entities.User"/>
+        <mapping class="Entities.Reservation"/>
+        <mapping class="Entities.OfficeHour"/>
+        <mapping class="Entities.Notification"/>
+
     </session-factory>
 </hibernate-configuration>

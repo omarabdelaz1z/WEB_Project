@@ -1,64 +1,21 @@
 package Entities;
 
-public class Student {
-    private String ID;
-    private String name;
-    private String email;
-    private String password;
+public class Student extends User {
+    int status;
 
-    public Student(){
-
-    }
-    public Student(String ID, String name, String email, String password){
-        this.ID = ID;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-    public Student setEmail(String email) {
-        this.email = email;
-        return this;
+    public int getStatus() {
+        return status;
     }
 
-    public Student setID(String ID) {
-        this.ID = ID;
-        return this;
+    public Student(User user) {
+        super.setName(user.getName());
+        super.setID(user.getID());
+        super.setEmail(user.getEmail());
+        super.setPassword(user.getPassword());
+        super.setType(user.getType());
     }
 
-    public Student setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Student setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getID() {
-        return ID;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    // Used for debugging...
-    @Override
-    public String toString() {
-        return "Student{" +
-                "ID=" + ID +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public Student(String name, String email, String password){
+        super(name, email, password, "STUDENT");
     }
 }

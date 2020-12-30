@@ -1,16 +1,39 @@
 package Entities;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "officehours",  uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
 public class OfficeHour {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false, unique = true)
     private String ID;
+
+    @Column(name = "staffMemberID", nullable = false, unique = true)
     private String staffMemberID;
+
+    @Column(name = "status", nullable = false)
     private boolean status;
+
+    @Column(name = "time", nullable = false)
     private LocalDateTime time;
+
+    @Column(name = "location", nullable = false)
     private String location;
 
     public OfficeHour(){
 
+    }
+
+    public OfficeHour update(OfficeHour officeHour){
+        this.ID = officeHour.getID();
+        this.staffMemberID = officeHour.getStaffMemberID();
+        this.status = officeHour.isStatus();
+        this.time = officeHour.getTime();
+        this.location = officeHour.getLocation();
+        return this;
     }
 
     public OfficeHour(String ID, String staffMemberID, LocalDateTime time, String location) {

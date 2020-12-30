@@ -1,4 +1,4 @@
-package Utils;
+package Database;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,15 +8,15 @@ import java.io.File;
 
 public class HibernateUtil {
     private SessionFactory factory;
-    private static HibernateUtil hibernateUtil;
+    private static HibernateUtil instance;
 
     private HibernateUtil(){ }
 
-    public static HibernateUtil getInstance(){
-        if(hibernateUtil == null)
-            hibernateUtil = new HibernateUtil();
+    public static HibernateUtil getInstance() {
+        if(instance == null)
+            instance = new HibernateUtil();
 
-        return hibernateUtil;
+        return instance;
     }
 
     public SessionFactory getFactory(){
@@ -44,4 +44,3 @@ public class HibernateUtil {
         return session;
     }
 }
-

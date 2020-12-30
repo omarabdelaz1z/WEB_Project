@@ -1,11 +1,23 @@
 package Entities;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "reservations", uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
 public class Reservation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false, unique = true)
     private String ID;
+
+    @Column(name = "fromDate", nullable = false)
     private LocalDateTime fromDate;
+
+    @Column(name = "toDate", nullable = false)
     private LocalDateTime toDate;
+
+    @Column(name = "status", nullable = false)
     private boolean status;
 
     public Reservation(){
