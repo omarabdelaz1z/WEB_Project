@@ -30,8 +30,7 @@
 
          <!-- Add Mapped class here -->
 
-        <mapping class="Entities.Student"/>
-        <mapping class="Entities.StaffMember"/>
+        <mapping class="Entities.User"/>
         <mapping class="Entities.Reservation"/>
         <mapping class="Entities.OfficeHour"/>
         <mapping class="Entities.Notification"/>
