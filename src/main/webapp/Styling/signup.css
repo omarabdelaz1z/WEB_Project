@@ -47,6 +47,13 @@ body{
   font-size: 1.2em;
 }
 
+.page_inner_btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 input[type="email"], input[type="password"], input[type="text"]{
   color: white;
   border: none;
