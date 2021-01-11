@@ -18,13 +18,13 @@ import java.io.PrintWriter;
 
 @WebServlet("/Session")
 public class Session extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         // fetch form parameters.
 
         // fetch google recaptcha.
-        String gRecaptchaResponse = request
-                .getParameter("g-recaptcha-response");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         // check if the user pressed 'i am not a robot' button
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
@@ -35,14 +35,14 @@ public class Session extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validate(email, password);
 
-        if((isVerified) && (user != null)) {
-            if(user.getType().equals("STUDENT")) {
+        if ((isVerified) && (user != null)) {
+            if (user.getType().equals("STUDENT")) {
                 Student student = new Student(user);
                 session.setAttribute("currentUser", student);
                 response.sendRedirect("Student_Successful.jsp");
             }
 
-            else{
+            else {
                 StaffMember staffMember = new StaffMember(user);
                 session.setAttribute("currentUser", staffMember);
                 response.sendRedirect("Staff_Successful.jsp");
@@ -56,7 +56,7 @@ public class Session extends HttpServlet {
             if (isVerified)
                 out.println("<script> alert('Either user name or password is wrong')</script>");
 
-             else
+            else
                 out.println("<script> alert('You missed the Captcha.')</script>");
 
             rd.include(request, response);

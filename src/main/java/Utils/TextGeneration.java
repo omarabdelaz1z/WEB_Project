@@ -3,7 +3,7 @@ package Utils;
 import java.security.SecureRandom;
 
 public class TextGeneration {
-    public static String generatePassword(int length){
+    public static String generatePassword(int length) {
         SecureRandom secureRandom = new SecureRandom();
         StringBuilder generatedPassword = new StringBuilder();
 
@@ -17,7 +17,7 @@ public class TextGeneration {
         return generatedPassword.toString();
     }
 
-    public static String generateID(int length){
+    public static String generateID(int length) {
         SecureRandom secureRandom = new SecureRandom();
         StringBuilder generatedID = new StringBuilder();
 
