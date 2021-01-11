@@ -25,39 +25,36 @@ public class SignUp extends HttpServlet {
     private final MailManager mailManager = new MailManager();
     private Gson gson = new Gson();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
 
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String type = request.getParameter("type");
 
-        String gRecaptchaResponse = request
-                .getParameter("g-recaptcha-response");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
 
         String generatedPassword = TextGeneration.generatePassword(8);
 
-        String content = "Hey "
-                +  name
-                + ", \nWelcome to our website, Here is your password: "
-                + generatedPassword
+        String content = "Hey " + name + ", \nWelcome to our website, Here is your password: " + generatedPassword
                 + "  Use it to proceed.\n\nStudent Management";
 
         System.out.println(generatedPassword);
 
-        if(isVerified) {
+        if (isVerified) {
             mailManager.sendEmail(email, "Verify Mail", content);
             if (type.equals("student")) {
                 UserDAO userDAO = new UserDAO();
-                User user = userDAO.create(new User(name, email, generatedPassword,"Student"));
+                User user = userDAO.create(new User(name, email, generatedPassword, "Student"));
                 Student student = new Student(user);
                 session.setAttribute("currentUser", student);
 
             } else if (type.equals("staffMember")) {
                 UserDAO userDAO = new UserDAO();
-                User user = userDAO.create(new User(name, email, generatedPassword,"STAFF"));
+                User user = userDAO.create(new User(name, email, generatedPassword, "STAFF"));
                 StaffMember staffMember = new StaffMember(user);
                 session.setAttribute("currentUser", staffMember);
             }
@@ -66,8 +63,7 @@ public class SignUp extends HttpServlet {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(responseMessage);
-        }
-        else{
+        } else {
             String responseMessage = this.gson.toJson("FAILED");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
