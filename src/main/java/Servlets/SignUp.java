@@ -7,6 +7,8 @@ import Entities.User;
 import Utils.MailManager;
 import Utils.Recaptcha;
 import Utils.TextGeneration;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,6 +23,7 @@ import java.io.PrintWriter;
 @WebServlet("/SignUp")
 public class SignUp extends HttpServlet {
     private final MailManager mailManager = new MailManager();
+    private Gson gson = new Gson();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -44,8 +47,8 @@ public class SignUp extends HttpServlet {
 
         System.out.println(generatedPassword);
 
-        mailManager.sendEmail(email, "Verify Mail", content);
         if(isVerified) {
+            mailManager.sendEmail(email, "Verify Mail", content);
             if (type.equals("student")) {
                 UserDAO userDAO = new UserDAO();
                 User user = userDAO.create(new User(name, email, generatedPassword,"Student"));
@@ -59,14 +62,16 @@ public class SignUp extends HttpServlet {
                 session.setAttribute("currentUser", staffMember);
             }
 
-            response.sendRedirect("login.html");
+            String responseMessage = this.gson.toJson("SUCCESS");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(responseMessage);
         }
-
         else{
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("signup.html");
-            PrintWriter out = response.getWriter();
-            out.println("<script> alert('You missed the Captcha.')</script>");
-            rd.include(request, response);
+            String responseMessage = this.gson.toJson("FAILED");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(responseMessage);
         }
 
     }

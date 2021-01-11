@@ -20,7 +20,12 @@ $(document).ready(function () {
             data : dataString,
             dataType : 'json',
             success : function (data) {
-                alert(data);
+                if(data === "SUCCESS"){
+                    alert("Logged in successfully");
+                    //window.location.href = "http://localhost:8080/Pages/signup";
+                } else {
+                    alert(data);
+                }
             },
             error : function (data) {
                 alert(data);

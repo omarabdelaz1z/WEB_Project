@@ -80,7 +80,7 @@ input[type="radio"]{
   opacity: 0.8;
 }
 
-input[type="submit"]{
+input[type="submit"], a{
   color: white;
   padding: 15px 30px;
   cursor: pointer;

@@ -24,11 +24,17 @@ $(document).ready(function () {
             dataType : 'json',
             success : function (data) {
                 $("#signup").prop('disabled', false).prop('value', 'SignUp').show("slow");
-                alert(data);
-                $('#login').show("slow");
+                if(data === "SUCCESS"){
+                    alert("Registered Successfully");
+                    $('#login').show("slow");
+                } else {
+                    alert("You missed the captcha");
+                    $('#login').hide();
+                }
             },
             error : function (data) {
                 alert(data);
+                $('#login').hide();
             }
         });
     });
