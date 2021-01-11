@@ -15,7 +15,8 @@ public class UserDAO {
     }
 
     public User validate(String email, String password) {
-        List<User> users = userCRUD.query("from User O where O.email = '" + email + "' AND O.password = '" + password + "'");
+        List<User> users = userCRUD
+                .query("from User O where O.email = '" + email + "' AND O.password = '" + password + "'");
         try {
             return users.get(0);
         } catch (Exception e) {
@@ -26,4 +27,14 @@ public class UserDAO {
     public User create(User object) {
         return userCRUD.create(object);
     }
+
+    public User getContactByName(String name) {
+        String query = "SELECT * FROM User O where O.name LIKE '%" + name + "%' ";
+        List<User> resultSet = userCRUD.query(query);
+        if (resultSet != null)
+            return resultSet.get(0);
+
+        return null;
+    }
+
 }

@@ -25,7 +25,15 @@ public class NotificationDAO {
         }
     }
 
-    public Notification createNotification(Notification notification){
+    public Notification createNotification(Notification notification) {
         return notificationCRUD.create(notification);
+    }
+
+    public List<Notification> createNotifications(List<Notification> notifications) {
+        List<Notification> addedNotifications = new ArrayList<>();
+        for (Notification notification : notifications) {
+            addedNotifications.add(createNotification(notification));
+        }
+        return addedNotifications;
     }
 }

@@ -23,8 +23,7 @@ public class UserCRUD implements ICRUD<User> {
             session.save(object);
             session.getTransaction().commit();
             return object;
-        }
-        catch(ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             e.printStackTrace();
             return null;
         }
@@ -34,7 +33,7 @@ public class UserCRUD implements ICRUD<User> {
     public User read(String ID) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        User user =  session.get(User.class, ID);
+        User user = session.get(User.class, ID);
         session.getTransaction().commit();
         return user;
     }
