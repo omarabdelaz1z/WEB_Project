@@ -5,42 +5,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="users",
+@Table(name = "users",
         uniqueConstraints = {@UniqueConstraint(columnNames =
                 {"ID"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="ID", nullable = false, unique = true)
+    @Column(name = "ID", nullable = false, unique = true)
     private String ID;
 
-    @Column(name="name", nullable=false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="email", nullable=false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name="password", nullable=false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name="type", nullable = false)
+    @Column(name = "type", nullable = false)
     private String type;
+
+    @Column(name = "subjectID", nullable = true)
+    private String subjectID;
 
     @Transient
     private List<Notification> notifications = new ArrayList<>();
 
-    public User(){
+    public User() {
 
     }
 
-    public User(String name, String email, String password, String type){
+    public User(String name, String email, String password, String type) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.type = type;
     }
 
-    public User updateUser(User user){
+    public User updateUser(User user) {
         this.ID = user.getID();
         this.name = user.getName();
         this.email = user.getEmail();
@@ -100,6 +103,16 @@ public class User {
 
     public User setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    public String getSubjectID() {
+        return subjectID;
+    }
+
+
+    public User setSubjectID(String subjectID) {
+        this.subjectID = subjectID;
         return this;
     }
 
