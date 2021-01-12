@@ -20,9 +20,12 @@ $(document).ready(function () {
             data : dataString,
             dataType : 'json',
             success : function (data) {
-                if(data === "SUCCESS"){
+                if(data === "STUDENT"){
                     alert("Logged in successfully");
-                    //window.location.href = "http://localhost:8080/Pages/signup";
+                    window.location.href = "http://localhost:8080/Pages/Studenthome";
+                } else if(data === "STAFF") {
+                    alert("Logged in successfully");
+                    // window.location.href = "http://localhost:8080/Pages/Studenthome";
                 } else {
                     alert(data);
                 }

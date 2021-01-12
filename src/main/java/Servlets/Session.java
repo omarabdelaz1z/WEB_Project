@@ -37,18 +37,20 @@ public class Session extends HttpServlet {
 
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validate(email, password);
+        String responseMessage;
 
         if((isVerified) && (user != null)) {
-            if(user.getType().equals("STUDENT")) {
+            if(user.getType().equalsIgnoreCase("STUDENT")) {
                 Student student = new Student(user);
                 session.setAttribute("currentUser", student);
+                responseMessage = this.gson.toJson("STUDENT");
             }
 
             else{
                 StaffMember staffMember = new StaffMember(user);
                 session.setAttribute("currentUser", staffMember);
+                responseMessage = this.gson.toJson("STAFF");
             }
-            String responseMessage = this.gson.toJson("SUCCESS");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(responseMessage);
@@ -56,13 +58,13 @@ public class Session extends HttpServlet {
 
         else {
             if (isVerified){
-                String responseMessage = this.gson.toJson("Either user name or password is wrong");
+                responseMessage = this.gson.toJson("Either user name or password is wrong");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(new Gson().toJson(responseMessage));
             }
             else{
-                String responseMessage = this.gson.toJson("You missed the Captcha");
+                responseMessage = this.gson.toJson("You missed the Captcha");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(responseMessage);
@@ -73,6 +75,6 @@ public class Session extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession currentSession = request.getSession();
         currentSession.invalidate();
-        response.sendRedirect("login.html");
+        response.sendRedirect("/Pages/login");
     }
 }
