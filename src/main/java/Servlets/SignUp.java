@@ -1,5 +1,16 @@
 package Servlets;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
 import DAO.UserDAO;
 import Entities.StaffMember;
 import Entities.Student;
@@ -7,18 +18,6 @@ import Entities.User;
 import Utils.MailManager;
 import Utils.Recaptcha;
 import Utils.TextGeneration;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/SignUp")
 public class SignUp extends HttpServlet {
@@ -31,6 +30,7 @@ public class SignUp extends HttpServlet {
         String email = request.getParameter("email");
         String name = request.getParameter("name");
         String type = request.getParameter("type");
+        String subject = request.getParameter("subject");
 
         String gRecaptchaResponse = request
                 .getParameter("g-recaptcha-response");

@@ -20,7 +20,13 @@
         <form id="registerForm">
           <div>
             <label>Name</label>
-            <input type="text" id="name" name="name" placeholder="Name" required />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name"
+              required
+            />
           </div>
 
           <div>
@@ -37,12 +43,87 @@
 
           <div>
             <label>Type</label>
+            <section class="l-flexbox">
+              <section>
+                <input
+                  type="radio"
+                  class="type"
+                  name="type"
+                  value="student"
+                  onclick="reveal();"
+                  required
+                />
+                <label>Student</label>
+              </section>
 
-            <input type="radio" class="type" name="type" value="student" required />
-            <label>Student</label>
+              <section>
+                <input
+                  type="radio"
+                  class="type"
+                  name="type"
+                  value="staffMember"
+                  onclick="reveal();"
+                  required
+                />
+                <label>Staff Member</label>
+              </section>
+            </section>
+          </div>
 
-            <input type="radio" class="type" name="type" value="staffMember" required />
-            <label>Staff Member</label>
+          <div id="reveal" class="reveal-subject">
+            <label>Choose Subject</label>
+            <section class="subjects-box">
+              <section class="l-flexbox">
+                <section>
+                  <input
+                    type="radio"
+                    class="subject"
+                    name="subject"
+                    id="subject"
+                    value="Database"
+                    required
+                  />
+                  <label>Database</label>
+                </section>
+
+                <section>
+                  <input
+                    type="radio"
+                    name="subject"
+                    class="subject"
+                    id="subject"
+                    value="Computer Science"
+                    required
+                  />
+                  <label>Computer Science</label>
+                </section>
+              </section>
+              <section class="l-flexbox">
+                <section>
+                  <input
+                    type="radio"
+                    name="subject"
+                    class="subject"
+                    id="subject"
+                    value="Web Development"
+                    required
+                  />
+                  <label>Web Development</label>
+                </section>
+
+                <section>
+                  <input
+                    type="radio"
+                    name="subject"
+                    class="subject"
+                    id="subject"
+                    value="Software Engineering"
+                    required
+                  />
+                  <label>Software Engineering</label>
+                </section>
+              </section>
+            </section>
           </div>
 
           <div
@@ -54,7 +135,7 @@
 
           <div class="page_inner_btn">
             <input type="submit" id="signup" name="submit" value="Signup" />
-            <a style="display: none;" href="../login" id="login">Login</a>
+            <a style="display: none" href="../login" id="login">Login</a>
           </div>
         </form>
       </section>
