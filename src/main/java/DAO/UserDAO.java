@@ -16,7 +16,7 @@ public class UserDAO {
 
     public User validate(String email, String password) {
         List<User> users = userCRUD
-                .query("from User O where O.email = '" + email + "' AND O.password = '" + password + "'");
+                .query("FROM User U WHERE U.email = '" + email + "' AND U.password = '" + password + "'");
         try {
             return users.get(0);
         } catch (Exception e) {
@@ -29,7 +29,7 @@ public class UserDAO {
     }
 
     public User getContactByName(String name) {
-        String query = "SELECT * FROM User O where O.name LIKE '%" + name + "%' ";
+        String query = "FROM User U WHERE U.name LIKE '%" + name + "%' ";
         List<User> resultSet = userCRUD.query(query);
         if (resultSet != null)
             return resultSet.get(0);
@@ -37,4 +37,14 @@ public class UserDAO {
         return null;
     }
 
+    // 4. Search for a student and view his/her contact details.
+    // View his name and contact (email) in html
+
+    public User getStudentByName(String studentName) {
+        List<User> resultSet = userCRUD.query("FROM User U WHERE U.type = 'STUDENT' AND " + "U.name LIKE '%" + studentName + "%' ");
+        if (resultSet != null)
+            return resultSet.get(0);
+
+        return null;
+    }
 }

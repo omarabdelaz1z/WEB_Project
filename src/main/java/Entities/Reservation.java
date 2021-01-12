@@ -11,6 +11,12 @@ public class Reservation {
     @Column(name = "ID", nullable = false, unique = true)
     private String ID;
 
+    @Column(name = "reserveeID")
+    private String reserveeID;
+
+    @Column(name = "staffID")
+    private String staffID;
+
     @Column(name = "fromDate", nullable = false)
     private LocalDateTime fromDate;
 
@@ -24,8 +30,10 @@ public class Reservation {
 
     }
 
-    public Reservation(String ID, LocalDateTime fromDate, LocalDateTime toDate){
+    public Reservation(String ID, String reserveeID, String staffID, LocalDateTime fromDate, LocalDateTime toDate){
         this.ID = ID;
+        this.reserveeID = reserveeID;
+        this.staffID = staffID;
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
@@ -64,6 +72,22 @@ public class Reservation {
     public Reservation setStatus(boolean status) {
         this.status = status;
         return this;
+    }
+
+    public void setReserveeID(String reserveeID) {
+        this.reserveeID = reserveeID;
+    }
+
+    public String getReserveeID() {
+        return reserveeID;
+    }
+
+    public String getStaffID() {
+        return staffID;
+    }
+
+    public void setStaffID(String staffID) {
+        this.staffID = staffID;
     }
 
     @Override

@@ -21,13 +21,13 @@ import java.io.PrintWriter;
 public class Session extends HttpServlet {
     private Gson gson = new Gson();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         // fetch form parameters.
 
         // fetch google recaptcha.
-        String gRecaptchaResponse = request
-                .getParameter("g-recaptcha-response");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         // check if the user pressed 'i am not a robot' button
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
@@ -38,13 +38,13 @@ public class Session extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validate(email, password);
 
-        if((isVerified) && (user != null)) {
-            if(user.getType().equals("STUDENT")) {
+        if ((isVerified) && (user != null)) {
+            if (user.getType().equals("STUDENT")) {
                 Student student = new Student(user);
                 session.setAttribute("currentUser", student);
             }
 
-            else{
+            else {
                 StaffMember staffMember = new StaffMember(user);
                 session.setAttribute("currentUser", staffMember);
             }
@@ -55,13 +55,12 @@ public class Session extends HttpServlet {
         }
 
         else {
-            if (isVerified){
+            if (isVerified) {
                 String responseMessage = this.gson.toJson("Either user name or password is wrong");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(new Gson().toJson(responseMessage));
-            }
-            else{
+            } else {
                 String responseMessage = this.gson.toJson("You missed the Captcha");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
