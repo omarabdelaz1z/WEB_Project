@@ -1,9 +1,11 @@
 package Entities.CRUD;
 
 import Database.HibernateUtil;
+import Entities.OfficeHour;
 import Entities.Reservation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -58,7 +60,8 @@ public class ReservationCRUD implements ICRUD <Reservation> {
     public List<Reservation> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Reservation> reservations = session.createQuery(query).getResultList();
+        Query queryStatement = session.createQuery(query);
+        List<Reservation> reservations = queryStatement.list();
         session.getTransaction().commit();
         return reservations;
     }

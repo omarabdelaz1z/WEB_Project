@@ -5,6 +5,7 @@ import Entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -70,7 +71,8 @@ public class UserCRUD implements ICRUD<User> {
     public List<User> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<User> users = session.createQuery(query).getResultList();
+        Query queryStatement = session.createQuery(query);
+        List<User> users = queryStatement.list();
         session.getTransaction().commit();
         return users;
     }

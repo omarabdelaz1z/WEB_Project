@@ -1,14 +1,13 @@
 package DAO;
 
-import Entities.CRUD.OfficeHourCRUD;
-import Entities.CRUD.ICRUD;
+import Entities.CRUD.*;
 import Entities.OfficeHour;
 import Database.*;
 
 import java.util.List;
 
 public class OfficeHourDAO {
-    private HibernateUtil hibernateUtil;
+    private final HibernateUtil hibernateUtil;
     private final ICRUD<OfficeHour> officeHourCRUD;
 
     public OfficeHourDAO() {
