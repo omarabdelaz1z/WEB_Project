@@ -4,6 +4,7 @@ import Database.HibernateUtil;
 import Entities.OfficeHour;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -64,7 +65,8 @@ public class OfficeHourCRUD implements ICRUD <OfficeHour> {
     public List<OfficeHour> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<OfficeHour> officeHours = session.createQuery(query).getResultList();
+        Query queryStatement = session.createQuery(query);
+        List<OfficeHour> officeHours = queryStatement.list();
         session.getTransaction().commit();
         return officeHours;
     }

@@ -4,6 +4,7 @@ import Database.HibernateUtil;
 import Entities.Notification;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -58,7 +59,8 @@ public class NotificationCRUD implements ICRUD<Notification> {
     public List<Notification> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Notification> notifications = session.createQuery(query).getResultList();
+        Query queryStatement = session.createQuery(query);
+        List<Notification> notifications = queryStatement.list();
         session.getTransaction().commit();
         return notifications;
     }
