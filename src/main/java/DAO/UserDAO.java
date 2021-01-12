@@ -37,4 +37,10 @@ public class UserDAO {
         return null;
     }
 
+    public List<User> getUsersBySubject(String subjectID) {
+        String query = "SELECT*FROM User u where o.subjectID='" + subjectID + "'";
+        List<User> resultSet = userCRUD.query(query);
+        return resultSet;
+    }
+
 }
