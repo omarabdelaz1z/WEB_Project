@@ -1,4 +1,6 @@
 <%@ page import="Entities.Student" %>
+<%@ page import="Entities.StaffMember" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +13,7 @@
           rel="stylesheet"
   />
   <title>Home</title>
-  <% Student student = (Student) session.getAttribute("currentUser");%>
+  <% Student student = (Student) session.getAttribute("currentUser"); %>
 </head>
 <body>
 <header>
