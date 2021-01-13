@@ -4,7 +4,6 @@ import Database.HibernateUtil;
 import Entities.CRUD.ICRUD;
 import Entities.CRUD.SubjectCRUD;
 import Entities.Subject;
-import org.hibernate.Hibernate;
 
 import java.util.List;
 
@@ -13,11 +12,10 @@ public class SubjectDAO {
     private final ICRUD<Subject> subjectCRUD;
 
     public SubjectDAO() {
-        //hibernateUtil = HibernateUtil.getInstance();
-        //subjectCRUD = new SubjectCRUD(hibernateUtil);
+        // hibernateUtil = HibernateUtil.getInstance();
+        // subjectCRUD = new SubjectCRUD(hibernateUtil);
         subjectCRUD = new SubjectCRUD(HibernateUtil.getInstance());
     }
-
 
     public String getIDbyName(String subjectName) {
         List<Subject> subjects = subjectCRUD.query("from Subject s where s.name = '" + subjectName + "'");
@@ -26,6 +24,9 @@ public class SubjectDAO {
         } else {
             return null;
         }
+    }
 
+    public Subject getSubjectByID(String ID) {
+        return subjectCRUD.read(ID);
     }
 }

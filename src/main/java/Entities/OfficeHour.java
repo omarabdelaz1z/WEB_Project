@@ -1,11 +1,9 @@
 package Entities;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "officehours",  uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
+@Table(name = "officehours", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 public class OfficeHour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +28,11 @@ public class OfficeHour {
     @Column(name = "type", nullable = false)
     private String type;
 
-    public OfficeHour(){
+    public OfficeHour() {
 
     }
 
-    public OfficeHour update(OfficeHour officeHour){
+    public OfficeHour update(OfficeHour officeHour) {
         this.ID = officeHour.getID();
         this.staffMemberID = officeHour.getStaffMemberID();
         this.dayOfWeek = officeHour.getDayOfWeek();
@@ -44,13 +42,16 @@ public class OfficeHour {
         return this;
     }
 
-    public OfficeHour(String ID,String dayOfWeek, String startTime, String endTime,  String staffMemberID, String location) {
+    public OfficeHour(String ID, String dayOfWeek, String startTime, String endTime, String staffMemberID,
+            String location, String type) {
         this.ID = ID;
         this.staffMemberID = staffMemberID;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
-        this.endTime = endTime;;
+        this.endTime = endTime;
+        ;
         this.location = location;
+        this.type = type;
     }
 
     public String getID() {
@@ -114,13 +115,8 @@ public class OfficeHour {
 
     @Override
     public String toString() {
-        return "OfficeHour{" +
-                "ID='" + ID + '\'' +
-                ", staffMemberID='" + staffMemberID + '\'' +
-                ", dayOfWeek='" + dayOfWeek + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", location='" + location + '\'' +
-                '}';
+        return "OfficeHour{" + "ID='" + ID + '\'' + ", staffMemberID='" + staffMemberID + '\'' + ", dayOfWeek='"
+                + dayOfWeek + '\'' + ", startTime='" + startTime + '\'' + ", endTime='" + endTime + '\''
+                + ", location='" + location + '\'' + '}';
     }
 }
