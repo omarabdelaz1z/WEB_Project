@@ -34,6 +34,6 @@
         <mapping class="Entities.Reservation"/>
         <mapping class="Entities.OfficeHour"/>
         <mapping class="Entities.Notification"/>
-
+        <mapping class="Entities.Subject"/>
     </session-factory>
 </hibernate-configuration>

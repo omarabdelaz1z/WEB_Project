@@ -26,6 +26,9 @@ public class SubjectDAO {
         } else {
             return null;
         }
+    }
 
+    public Subject getSubjectByID(String ID){
+        return subjectCRUD.read(ID);
     }
 }
