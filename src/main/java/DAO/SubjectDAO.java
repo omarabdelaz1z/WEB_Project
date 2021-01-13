@@ -26,7 +26,11 @@ public class SubjectDAO {
         }
     }
 
+<<<<<<< HEAD
     public Subject getSubjectByID(String ID) {
+=======
+    public Subject getSubjectByID(String ID){
+>>>>>>> e33e8d6627e4f1b766821744d33a6a723ff07486
         return subjectCRUD.read(ID);
     }
 }
