@@ -1,12 +1,9 @@
 package DAO;
 
 import Database.HibernateUtil;
+import Entities.*;
 import Entities.CRUD.ICRUD;
 import Entities.CRUD.UserCRUD;
-import Entities.OfficeHour;
-import Entities.StaffMember;
-import Entities.Subject;
-import Entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +60,15 @@ public class UserDAO {
         List<StaffMember> staffMembersList = new ArrayList<>();
 
         for(User user: resultSet) {
-            Subject subject = new SubjectDAO().getSubjectByID(user.getSubjectID());
+            Subject subject =
+                    new SubjectDAO().getSubject("SELECT S FROM Subject S INNER JOIN User U ON S.ID = '" + user.getSubjectID() + "' WHERE U.ID = '"+ user.getID()+"'").get(0);
 
-            OfficeHour officeHour = new OfficeHourDAO()
-                    .getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID").get(0);
+
+            List<OfficeHour> officeHours = new OfficeHourDAO()
+                    .getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID WHERE O.staffMemberID = '" + user.getID() + "'");
+
             StaffMember staffMember = new StaffMember(user);
-            staffMember.setOfficeHour(officeHour);
+            staffMember.setOfficeHour(officeHours);
             staffMember.setSubject(subject);
             staffMembersList.add(staffMember);
         }
@@ -82,4 +82,38 @@ public class UserDAO {
 
     // TODO: Prepare Staff Member Object
     // TODO: Prepare Student Object
+
+    public Student prepareStudent(User user){
+        Student student = new Student(user);
+        List<Notification> notificationList = new NotificationDAO().getNotifications("SELECT N From Notification N INNER JOIN User O ON O.ID = N.receiverID WHERE O.ID = '" + student.getID() + "'");
+        List<Reservation> reservations = new ReservationDAO().getReservations("SELECT R FROM Reservation R INNER JOIN User O ON O.ID = R.reserveeID WHERE O.ID = '" + student.getID()+"'");
+
+        student.setNotifications(notificationList);
+        student.setReservations(reservations);
+
+        return student;
+    }
+
+    public StaffMember prepareStaffMember(User user) {
+        StaffMember staffMember = new StaffMember(user);
+
+        List<Notification> notificationList =
+                new NotificationDAO().getNotifications("SELECT N From Notification N INNER JOIN User O ON O.ID = N.receiverID WHERE O.ID = '" + staffMember.getID() + "'");
+
+        List<Reservation> reservations =
+                new ReservationDAO().getReservations("SELECT R FROM Reservation R INNER JOIN User O ON O.ID = R.staffID WHERE O.ID = '" + staffMember.getID() + "'");
+
+        List<OfficeHour> officeHours = new OfficeHourDAO()
+                .getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID WHERE O.staffMemberID = '" + staffMember.getID() + "'");
+
+        Subject subject =
+                new SubjectDAO().getSubject("SELECT S FROM Subject S INNER JOIN User U ON S.ID = '" + staffMember.getSubjectID() + "' WHERE U.ID = '"+ staffMember.getID()+"'").get(0);
+
+        staffMember.setNotifications(notificationList);
+        staffMember.setReservations(reservations);
+        staffMember.setSubject(subject);
+        staffMember.setOfficeHour(officeHours);
+
+        return staffMember;
+    }
 }

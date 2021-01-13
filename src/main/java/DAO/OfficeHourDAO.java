@@ -18,4 +18,8 @@ public class OfficeHourDAO {
     public List<OfficeHour> getOfficeHours(String query) {
         return officeHourCRUD.query(query);
     }
+
+    public OfficeHour updateOfficeHour(String ID, OfficeHour officeHour){
+        return officeHourCRUD.update(ID, officeHour);
+    }
 }
