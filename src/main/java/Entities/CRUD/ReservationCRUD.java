@@ -59,7 +59,7 @@ public class ReservationCRUD implements ICRUD<Reservation> {
     public List<Reservation> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Query queryStatement = session.createQuery(query);
+        Query<Reservation> queryStatement = session.createQuery(query, Reservation.class);
         List<Reservation> reservations = queryStatement.list();
         session.getTransaction().commit();
         return reservations;

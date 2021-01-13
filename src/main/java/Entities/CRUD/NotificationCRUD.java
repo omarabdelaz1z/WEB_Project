@@ -37,7 +37,7 @@ public class NotificationCRUD implements ICRUD<Notification> {
     public List<Notification> read() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Notification> notifications = session.createQuery("from Notification ").getResultList();
+        List<Notification> notifications = session.createQuery("from Notification ", Notification.class).getResultList();
         session.getTransaction().commit();
         return notifications;
     }
@@ -59,7 +59,7 @@ public class NotificationCRUD implements ICRUD<Notification> {
     public List<Notification> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Query queryStatement = session.createQuery(query);
+        Query<Notification> queryStatement = session.createQuery(query, Notification.class);
         List<Notification> notifications = queryStatement.list();
         session.getTransaction().commit();
         return notifications;

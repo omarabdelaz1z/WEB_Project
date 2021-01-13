@@ -71,7 +71,7 @@ public class UserCRUD implements ICRUD<User> {
     public List<User> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Query queryStatement = session.createQuery(query);
+        Query<User> queryStatement = session.createQuery(query, User.class);
         List<User> users = queryStatement.list();
         session.getTransaction().commit();
         return users;

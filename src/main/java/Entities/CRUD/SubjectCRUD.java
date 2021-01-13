@@ -61,7 +61,7 @@ public class SubjectCRUD implements ICRUD<Subject> {
     public List<Subject> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Subject> subjects = session.createQuery(query).getResultList();
+        List<Subject> subjects = session.createQuery(query, Subject.class).getResultList();
         session.getTransaction().commit();
         return subjects;
     }
