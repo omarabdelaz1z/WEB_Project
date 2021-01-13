@@ -65,12 +65,8 @@ public class UserDAO {
         for(User user: resultSet) {
             Subject subject = new SubjectDAO().getSubjectByID(user.getSubjectID());
 
-<<<<<<< HEAD
             OfficeHour officeHour = new OfficeHourDAO()
                     .getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID").get(0);
-=======
-            OfficeHour officeHour = new OfficeHourDAO().getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID").get(0);
->>>>>>> e33e8d6627e4f1b766821744d33a6a723ff07486
             StaffMember staffMember = new StaffMember(user);
             staffMember.setOfficeHour(officeHour);
             staffMember.setSubject(subject);
