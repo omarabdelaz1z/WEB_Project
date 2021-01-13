@@ -20,6 +20,7 @@ $(document).ready(function () {
             data : dataString,
             dataType : 'json',
             success : function (data) {
+                console.log(data);
                 if(data === "STUDENT"){
                     alert("Logged in successfully");
                     window.location.href = "http://localhost:8080/Pages/Studenthome";

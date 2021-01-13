@@ -51,6 +51,7 @@ header nav a {
   visibility: hidden;
   opacity: 0;
   z-index: 1;
+  overflow: scroll;
 }
 
 .popup-overlay:target {
@@ -63,7 +64,8 @@ header nav a {
   padding: 2em;
   background: rgb(245, 68, 68);
   border-radius: 5px;
-  width: 30%;
+  width: 40%;
+  min-height: 70vh;
   position: relative;
   transition: all 5s ease-in-out;
   color: white;
@@ -103,7 +105,8 @@ header nav a {
 }
 
 .popup-window .contact-box input[type="email"],
-.popup-window .contact-box input[type="text"] {
+.popup-window .contact-box input[type="text"],
+.popup-window .contact-box input[type="password"] {
   border: none;
   padding: 5px;
   color: white;
@@ -130,7 +133,7 @@ header nav a {
 
 .submit-btn {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .submit-btn input[type="submit"] {
@@ -164,7 +167,7 @@ header nav a {
   font-weight: 400;
 }
 
-.subject-search input[type="text"]{
+.subject-search input[type="search"]{
   border: none;
   padding: 5px;
   margin: 0 10px;
@@ -174,7 +177,7 @@ header nav a {
   border-bottom: 2px solid black;
 }
 
-.subject-search input[type="text"]::placeholder{
+.subject-search input[type="search"]::placeholder{
   color: black;
 }
 
@@ -184,6 +187,9 @@ header nav a {
   justify-content: center;
 }
 
+.contact-box table,
+.contact-box th,
+.contact-box td,
 .subject-search table,
 .subject-search th,
 .subject-search td{
