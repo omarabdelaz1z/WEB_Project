@@ -1,3 +1,14 @@
+//Decides whether reveal the subjects if the registering is Staff Member
+function reveal(){
+    if($('.type:checked').val() === 'staffMember'){
+        $('#reveal').show('slow');
+    }
+    else {
+        $('#reveal').hide('slow');
+    }
+}
+
+//Validating data with the Servlet
 $(document).ready(function () {
     $('#registerForm').submit(function (e) {
         e.preventDefault();
@@ -10,12 +21,22 @@ $(document).ready(function () {
         const name = $('input#name').val();
         const email = $('input#email').val();
         const type = $('.type:checked').val();
+        const subject = $('.subject:checked').val();
 
-        dataString =
-            'name=' + name +
-            '&type=' + type +
-            '&email=' + email +
-            '&g-recaptcha-response=' + grecaptcha.getResponse();
+        if(type === 'staffMember'){
+            dataString =
+                'name=' + name +
+                '&type=' + type +
+                '&email=' + email +
+                '&subject=' + subject +
+                '&g-recaptcha-response=' + grecaptcha.getResponse();
+        } else {
+            dataString =
+                'name=' + name +
+                '&type=' + type +
+                '&email=' + email +
+                '&g-recaptcha-response=' + grecaptcha.getResponse();
+        }
 
         $.ajax({
             type : 'POST',

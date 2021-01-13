@@ -7,17 +7,23 @@ import DAO.UserDAO;
 import Entities.*;
 import Utils.Recaptcha;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+
+import com.google.gson.Gson;
+
+import DAO.UserDAO;
+import Entities.StaffMember;
+import Entities.Student;
+import Entities.User;
+import Utils.Recaptcha;
 
 @WebServlet("/Session")
 public class Session extends HttpServlet {
@@ -39,9 +45,10 @@ public class Session extends HttpServlet {
 
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validate(email, password);
+        String responseMessage;
 
-        if ((isVerified) && (user != null)) {
-            if (user.getType().equals("STUDENT")) {
+        if((isVerified) && (user != null)) {
+            if(user.getType().equalsIgnoreCase("STUDENT")) {
                 Student student = new Student(user);
                 List<Notification> notificationList = new NotificationDAO().getNotifications("SELECT N From Notification N INNER JOIN User O ON O.ID = N.receiverID");
                 List<Reservation> reservations = new ReservationDAO().getReservations("SELECT R FROM Reservation R INNER JOIN User O ON O.ID = R.reserveeID");
@@ -52,6 +59,7 @@ public class Session extends HttpServlet {
 
                 session.setAttribute("staffMembers", staffMembersList);
                 session.setAttribute("currentUser", student);
+                responseMessage = this.gson.toJson("STUDENT");
             }
 
             else {
@@ -65,21 +73,22 @@ public class Session extends HttpServlet {
                 staffMember.setSubject(subject);
 
                 session.setAttribute("currentUser", staffMember);
+                responseMessage = this.gson.toJson("STAFF");
             }
-            String responseMessage = this.gson.toJson("SUCCESS");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(responseMessage);
         }
 
         else {
-            if (isVerified) {
-                String responseMessage = this.gson.toJson("Either user name or password is wrong");
+            if (isVerified){
+                responseMessage = this.gson.toJson("Either user name or password is wrong");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(new Gson().toJson(responseMessage));
-            } else {
-                String responseMessage = this.gson.toJson("You missed the Captcha");
+            }
+            else{
+                responseMessage = this.gson.toJson("You missed the Captcha");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(responseMessage);
@@ -90,6 +99,6 @@ public class Session extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession currentSession = request.getSession();
         currentSession.invalidate();
-        response.sendRedirect("login.html");
+        response.sendRedirect("/Pages/login");
     }
 }
