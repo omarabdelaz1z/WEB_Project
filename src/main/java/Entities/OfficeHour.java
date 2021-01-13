@@ -1,11 +1,9 @@
 package Entities;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "officehours",  uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
+@Table(name = "officehours", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 public class OfficeHour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,26 +16,25 @@ public class OfficeHour {
     @Column(name = "day_of_week")
     private String dayOfWeek;
 
-    @Column(name = "from_time")
+    @Column(name = "start_time")
     private String startTime;
 
     @Column(name = "end_time")
     private String endTime;
 
-    @Column(name = "status", nullable = false)
-    private boolean status;
-
     @Column(name = "location", nullable = false)
     private String location;
 
-    public OfficeHour(){
+    @Column(name = "type", nullable = false)
+    private String type;
+
+    public OfficeHour() {
 
     }
 
-    public OfficeHour update(OfficeHour officeHour){
+    public OfficeHour update(OfficeHour officeHour) {
         this.ID = officeHour.getID();
         this.staffMemberID = officeHour.getStaffMemberID();
-        this.status = officeHour.isStatus();
         this.dayOfWeek = officeHour.getDayOfWeek();
         this.startTime = officeHour.getStartTime();
         this.endTime = officeHour.getEndTime();
@@ -45,13 +42,16 @@ public class OfficeHour {
         return this;
     }
 
-    public OfficeHour(String ID,String dayOfWeek, String startTime, String endTime,  String staffMemberID, String location) {
+    public OfficeHour(String ID, String dayOfWeek, String startTime, String endTime, String staffMemberID,
+            String location, String type) {
         this.ID = ID;
         this.staffMemberID = staffMemberID;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
-        this.endTime = endTime;;
+        this.endTime = endTime;
+        ;
         this.location = location;
+        this.type = type;
     }
 
     public String getID() {
@@ -96,15 +96,6 @@ public class OfficeHour {
         return this;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public OfficeHour setStatus(boolean status) {
-        this.status = status;
-        return this;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -114,16 +105,18 @@ public class OfficeHour {
         return this;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
-        return "OfficeHour{" +
-                "ID='" + ID + '\'' +
-                ", staffMemberID='" + staffMemberID + '\'' +
-                ", dayOfWeek='" + dayOfWeek + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", status=" + status +
-                ", location='" + location + '\'' +
-                '}';
+        return "OfficeHour{" + "ID='" + ID + '\'' + ", staffMemberID='" + staffMemberID + '\'' + ", dayOfWeek='"
+                + dayOfWeek + '\'' + ", startTime='" + startTime + '\'' + ", endTime='" + endTime + '\''
+                + ", location='" + location + '\'' + '}';
     }
 }

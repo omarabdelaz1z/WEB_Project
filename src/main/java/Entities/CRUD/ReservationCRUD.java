@@ -1,7 +1,6 @@
 package Entities.CRUD;
 
 import Database.HibernateUtil;
-import Entities.OfficeHour;
 import Entities.Reservation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +8,7 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class ReservationCRUD implements ICRUD <Reservation> {
+public class ReservationCRUD implements ICRUD<Reservation> {
     SessionFactory sessionFactory;
 
     public ReservationCRUD(HibernateUtil connection) {
@@ -29,7 +28,7 @@ public class ReservationCRUD implements ICRUD <Reservation> {
     public Reservation read(String ID) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Reservation reservation =  session.get(Reservation.class, ID);
+        Reservation reservation = session.get(Reservation.class, ID);
         session.getTransaction().commit();
         return reservation;
     }

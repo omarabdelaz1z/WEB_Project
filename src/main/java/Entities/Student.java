@@ -1,11 +1,10 @@
 package Entities;
 
-public class Student extends User {
-    int status;
+import java.util.ArrayList;
+import java.util.List;
 
-    public int getStatus() {
-        return status;
-    }
+public class Student extends User {
+    private List<Reservation> reservations = new ArrayList<>();
 
     public Student(User user) {
         super.setName(user.getName());
@@ -17,5 +16,13 @@ public class Student extends User {
 
     public Student(String name, String email, String password){
         super(name, email, password, "STUDENT");
+    }
+
+    public void setReservations(List<Reservation> reservationsList) {
+        this.reservations = reservationsList;
+    }
+
+    public List<Reservation> getReservations(String ID) {
+        return reservations;
     }
 }

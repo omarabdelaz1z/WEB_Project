@@ -110,7 +110,6 @@ public class User {
         return subjectID;
     }
 
-
     public User setSubjectID(String subjectID) {
         this.subjectID = subjectID;
         return this;

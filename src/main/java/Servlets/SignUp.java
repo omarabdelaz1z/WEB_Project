@@ -35,6 +35,11 @@ public class SignUp extends HttpServlet {
         String gRecaptchaResponse = request
                 .getParameter("g-recaptcha-response");
 
+        // TODO: to be added.
+        if(new UserDAO().checkIfEmailAlreadyExists(email)){
+            return;
+        }
+
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
 
         String generatedPassword = TextGeneration.generatePassword(8);

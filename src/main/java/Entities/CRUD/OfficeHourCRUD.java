@@ -65,7 +65,7 @@ public class OfficeHourCRUD implements ICRUD <OfficeHour> {
     public List<OfficeHour> query(String query) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Query queryStatement = session.createQuery(query);
+        Query<OfficeHour> queryStatement = session.createQuery(query, OfficeHour.class);
         List<OfficeHour> officeHours = queryStatement.list();
         session.getTransaction().commit();
         return officeHours;

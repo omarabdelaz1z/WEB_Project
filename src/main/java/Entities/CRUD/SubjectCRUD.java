@@ -1,7 +1,6 @@
 package Entities.CRUD;
 
 import Database.HibernateUtil;
-import Entities.OfficeHour;
 import Entities.Subject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
