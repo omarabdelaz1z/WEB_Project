@@ -1,13 +1,12 @@
 package Entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StaffMember extends User {
-    private String subject;
-
-    private int Status;
-
-    public int getStatus() {
-        return Status;
-    }
+    private Subject subject;
+    private OfficeHour officeHour;
+    private List<Reservation> reservations = new ArrayList<>();
 
     public StaffMember(User user) {
         super.setName(user.getName());
@@ -21,11 +20,40 @@ public class StaffMember extends User {
         super(name, email, password, "STAFF");
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(Subject subject) {
         this.subject = subject;
     }
 
-    public String getSubject() {
+    public Subject getSubject() {
         return subject;
+    }
+
+    public void setOfficeHour(OfficeHour officeHour) {
+        this.officeHour = officeHour;
+    }
+
+    public OfficeHour getOfficeHour() {
+        return officeHour;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    @Override
+    public String toString() {
+        return "StaffMember{" +
+                "ID='" + getID() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", type='" + getType() + '\'' +
+                ", notifications=" + getNotifications() + '\'' +
+                "subject=" + subject +
+                ", officeHour=" + officeHour +
+                '}';
     }
 }

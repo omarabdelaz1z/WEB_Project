@@ -18,17 +18,17 @@ public class OfficeHour {
     @Column(name = "day_of_week")
     private String dayOfWeek;
 
-    @Column(name = "from_time")
+    @Column(name = "start_time")
     private String startTime;
 
     @Column(name = "end_time")
     private String endTime;
 
-    @Column(name = "status", nullable = false)
-    private boolean status;
-
     @Column(name = "location", nullable = false)
     private String location;
+
+    @Column(name = "type", nullable = false)
+    private String type;
 
     public OfficeHour(){
 
@@ -37,7 +37,6 @@ public class OfficeHour {
     public OfficeHour update(OfficeHour officeHour){
         this.ID = officeHour.getID();
         this.staffMemberID = officeHour.getStaffMemberID();
-        this.status = officeHour.isStatus();
         this.dayOfWeek = officeHour.getDayOfWeek();
         this.startTime = officeHour.getStartTime();
         this.endTime = officeHour.getEndTime();
@@ -96,15 +95,6 @@ public class OfficeHour {
         return this;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public OfficeHour setStatus(boolean status) {
-        this.status = status;
-        return this;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -112,6 +102,14 @@ public class OfficeHour {
     public OfficeHour setLocation(String location) {
         this.location = location;
         return this;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override
@@ -122,7 +120,6 @@ public class OfficeHour {
                 ", dayOfWeek='" + dayOfWeek + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", status=" + status +
                 ", location='" + location + '\'' +
                 '}';
     }
