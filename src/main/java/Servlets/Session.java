@@ -1,9 +1,10 @@
 package Servlets;
 
+import DAO.NotificationDAO;
+import DAO.ReservationDAO;
+import DAO.SubjectDAO;
 import DAO.UserDAO;
-import Entities.StaffMember;
-import Entities.Student;
-import Entities.User;
+import Entities.*;
 import Utils.Recaptcha;
 import com.google.gson.Gson;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebServlet("/Session")
 public class Session extends HttpServlet {
@@ -41,11 +43,27 @@ public class Session extends HttpServlet {
         if ((isVerified) && (user != null)) {
             if (user.getType().equals("STUDENT")) {
                 Student student = new Student(user);
+                List<Notification> notificationList = new NotificationDAO().getNotifications("SELECT N From Notification N INNER JOIN User O ON O.ID = N.receiverID");
+                List<Reservation> reservations = new ReservationDAO().getReservations("SELECT R FROM Reservation R INNER JOIN User O ON O.ID = R.reserveeID");
+                List<StaffMember> staffMembersList = userDAO.getAllStaffMembers();
+
+                student.setNotifications(notificationList);
+                student.setReservations(reservations);
+
+                session.setAttribute("staffMembers", staffMembersList);
                 session.setAttribute("currentUser", student);
             }
 
             else {
                 StaffMember staffMember = new StaffMember(user);
+                List<Notification> notificationList = new NotificationDAO().getNotifications("SELECT N From Notification N INNER JOIN User O ON O.ID = N.receiverID");
+                List<Reservation> reservations = new ReservationDAO().getReservations("SELECT R FROM Reservation R INNER JOIN User O ON O.ID = R.staffID");
+                Subject subject = new SubjectDAO().getSubjectByID(staffMember.getSubjectID());
+
+                staffMember.setNotifications(notificationList);
+                staffMember.setReservations(reservations);
+                staffMember.setSubject(subject);
+
                 session.setAttribute("currentUser", staffMember);
             }
             String responseMessage = this.gson.toJson("SUCCESS");
