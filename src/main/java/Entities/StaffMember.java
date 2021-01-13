@@ -5,7 +5,7 @@ import java.util.List;
 
 public class StaffMember extends User {
     private Subject subject;
-    private OfficeHour officeHour;
+    private List<OfficeHour> officeHours;
     private List<Reservation> reservations = new ArrayList<>();
 
     public StaffMember(User user) {
@@ -14,6 +14,7 @@ public class StaffMember extends User {
         super.setEmail(user.getEmail());
         super.setPassword(user.getPassword());
         super.setType(user.getType());
+        super.setSubjectID(user.getSubjectID());
     }
 
     public StaffMember(String name, String email, String password) {
@@ -28,12 +29,12 @@ public class StaffMember extends User {
         return subject;
     }
 
-    public void setOfficeHour(OfficeHour officeHour) {
-        this.officeHour = officeHour;
+    public void setOfficeHour(List<OfficeHour> officeHours) {
+        this.officeHours = officeHours;
     }
 
-    public OfficeHour getOfficeHour() {
-        return officeHour;
+    public List<OfficeHour> getOfficeHour() {
+        return officeHours;
     }
 
     public void setReservations(List<Reservation> reservations) {
@@ -53,7 +54,7 @@ public class StaffMember extends User {
                 ", type='" + getType() + '\'' +
                 ", notifications=" + getNotifications() + '\'' +
                 "subject=" + subject +
-                ", officeHour=" + officeHour +
+                ", officeHour=" + officeHours +
                 '}';
     }
 }
