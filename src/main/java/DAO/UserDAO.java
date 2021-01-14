@@ -42,7 +42,7 @@ public class UserDAO {
     }
 
     public List<User> getUsersBySubject(String subjectID) {
-        String query = "SELECT*FROM User u where o.subjectID='" + subjectID + "'";
+        String query = "FROM User U WHERE U.subjectID ='" + subjectID + "'";
         List<User> resultSet = userCRUD.query(query);
         return resultSet;
     }
@@ -62,7 +62,7 @@ public class UserDAO {
         List<User> resultSet = userCRUD.query("SELECT U FROM User U WHERE U.type = 'STAFF'");
         List<StaffMember> staffMembersList = new ArrayList<>();
 
-        for(User user: resultSet) {
+        for (User user : resultSet) {
             Subject subject = new SubjectDAO().getSubjectByID(user.getSubjectID());
 
             OfficeHour officeHour = new OfficeHourDAO()
@@ -74,6 +74,15 @@ public class UserDAO {
         }
 
         return staffMembersList;
+    }
+
+    public List<User> getStaffMembers() {
+        List<User> resultSet = userCRUD.query("SELECT U FROM User U WHERE U.type = 'STAFF'");
+        /*for (User ob : resultSet) {
+            Subject subject = new SubjectDAO().getSubjectByID(ob.getSubjectID());
+            ob.setSubjectName(subject.getName());
+        }*/
+        return resultSet;
     }
 
     public boolean checkIfEmailAlreadyExists(String email) {

@@ -19,41 +19,25 @@ public class SearchBySubject extends HttpServlet {
         HttpSession session = request.getSession();
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        String result = "";
         String subject = request.getParameter("subject");
         SubjectDAO subjectDAO = new SubjectDAO();
-        // UserDAO userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
         String subjectID = subjectDAO.getIDbyName(subject);
         if (subjectID == null) {
-            result = "No staff members found for this subject!";
-            // but result in session
-            session.setAttribute("searchBySubjectResult", result);
-            // redirect to show staff members page
-            response.sendRedirect(request.getContextPath() + "/Show-staff-members.jsp");
+            //session value will be null
+            session.setAttribute("searchBySubjectResult", null);
+            //destination page might cause an error
+            response.sendRedirect(request.getContextPath() + "/test.jsp");
+            //response.sendRedirect(request.getContextPath() + "/Pages/Studenthome/index.jsp");
         } else {
-            UserDAO userDAO = new UserDAO();
             List<User> users = userDAO.getUsersBySubject(subjectID);
-            if (users == null) {
-                result = "No staff members found for this subject!";
-                // but result in session
-                session.setAttribute("searchBySubjectResult", result);
-                // redirect to show staff members page
-                response.sendRedirect(request.getContextPath() + "/Show-staff-members.jsp");
-            } else {
-                for (User ob : users) {
-                    result += "Name: " + ob.getName() + "\n";
-                    result += "Email: " + ob.getEmail() + "\n";
-                }
-                // but result in session
-                session.setAttribute("searchBySubjectResult", result);
-                // redirect to show staff members
-                response.sendRedirect(request.getContextPath() + "/Show-staff-members.jsp");
-            }
+            //session value will be null if users is empty
+            //and list of users if it is not
+            session.setAttribute("searchBySubjectResult", users);
+            //destination page might cause an error
+            response.sendRedirect(request.getContextPath() + "/test.jsp");
+            //response.sendRedirect(request.getContextPath() + "/Pages/Studenthome/index.jsp");
         }
-        // TEST
-        /*
-         * out.println("<html>" + "<h1>" + subject + "</h1>" + "</html>");
-         */
     }
 
     @Override

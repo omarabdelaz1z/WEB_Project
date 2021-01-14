@@ -9,7 +9,7 @@
     UserDAO userDAO = new UserDAO();
     List<User> users = (List<User>) session.getAttribute("searchBySubjectResult");
     pageContext.setAttribute("searchResult", users);
-    List<StaffMember> allStaffMembers = userDAO.getAllStaffMembers();
+    List<User> allStaffMembers = userDAO.getStaffMembers();
     pageContext.setAttribute("allStaff", allStaffMembers);
 %>
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="../../Styling/studentHome.css"/>
+    <link rel="stylesheet" href="Styling/studentHome.css"/>
     <link
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap"
             rel="stylesheet"
@@ -55,8 +55,11 @@
                 </section>
 
                 <section class="contact-box">
-                    <label>Subject</label>
-                    <input type="text" name="subject" placeholder="Subject" required/>
+                    <form action="SearchBySubject" method="get">
+                        <label>Subject</label>
+                        <input type="text" name="subject" placeholder="Subject" required/>
+                        <input type="submit" value="Find">
+                    </form>
                 </section>
 
                 <section class="contact-box">
@@ -74,48 +77,51 @@
     <!--Search for staff member by subject-->
     <section class="subject-search">
         <section>
-            <label>Search by subject</label>
-            <form action="SearchBySubject" method="get">
+            <form action="SearchBySubject" method="GET">
+                <label>Search by subject</label>
                 <input type="text" name="subject" placeholder="Subject"/>
+                <input type="submit" value="Find">
             </form>
         </section>
         <section>
             <table>
                 <tr>
                     <th>Name</th>
-                    <th>Subject</th>
-                    <th colspan="2">Email</th>
+                    <th>Email</th>
+                    <th colspan="2">Subject</th>
                 </tr>
-                <tr>
-                    <c:choose>
-                        <c:when test="${searchResult.size()==0}">
-                            <c:forEach var="staffMember" items="${allStaff}">
-
-                                <td>${staffMember.getName()}</td>
-                                <td>${staffMember.getEmail()}</td>
-                                <td>${staffMember.getSubject()}</td>
+                <c:choose>
+                    <c:when test="${searchResult==null}">
+                        <c:forEach var="staffMember" items="${allStaff}">
+                            <tr>
+                                <td>${staffMember.name}</td>
+                                <td>${staffMember.email}</td>
+                                <td>${staffMember.subjectID}</td>
                                 <td>
-                                    <c:url var="showMoreLink" value="/show-contact.jsp">
-                                        <c:param name="contactID" value="${staffMember.getID()}"/>
+                                    <c:url value="test.html" var="showMore">
+                                        <c:param name="contactID" value="${staffMember.ID}"/>
                                     </c:url>
+                                    <a href="/<c:out value="${showMore}"/>">View more</a>
                                 </td>
-                            </c:forEach>
-                        </c:when>
-                    </c:choose>
-                </tr>
-                <%--<tr>
-                  <td>Amr</td>
-                  <td>Database</td>
-                  <td>example@gmail.com</td>
-                  <td><a href="">View more</a></td>
-                </tr>
-
-                <tr>
-                  <td>Amr</td>
-                  <td>Software Engineering</td>
-                  <td>example@gmail.com</td>
-                  <td><a href="">View more</a></td>
-                </tr>--%>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="user" items="${searchResult}">
+                            <tr>
+                                <td>${user.name}</td>
+                                <td>${user.email}</td>
+                                <td>${user.subjectID}</td>
+                                <td>
+                                    <c:url value="/test.html" var="showMore">
+                                        <c:param name="contactID" value="${user.ID}"/>
+                                    </c:url>
+                                    <a href="/<c:out value="${showMore}"/>">View more</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </table>
         </section>
     </section>
