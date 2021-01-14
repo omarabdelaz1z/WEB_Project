@@ -1,10 +1,15 @@
 package Entities;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "officehours", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
-public class OfficeHour {
+public class OfficeHour implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false, unique = true)
@@ -115,8 +120,6 @@ public class OfficeHour {
 
     @Override
     public String toString() {
-        return "OfficeHour{" + "ID='" + ID + '\'' + ", staffMemberID='" + staffMemberID + '\'' + ", dayOfWeek='"
-                + dayOfWeek + '\'' + ", startTime='" + startTime + '\'' + ", endTime='" + endTime + '\''
-                + ", location='" + location + '\'' + '}';
+        return new Gson().toJson(this);
     }
 }

@@ -54,6 +54,20 @@ header nav a {
   overflow: scroll;
 }
 
+.popup-overlay-staff {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  visibility: visible;
+  opacity: 1;
+  z-index: 1;
+  color: white;
+  overflow: scroll;
+}
+
 .popup-overlay:target {
   visibility: visible;
   opacity: 1;
@@ -136,7 +150,8 @@ header nav a {
   justify-content: space-around;
 }
 
-.submit-btn input[type="submit"] {
+.submit-btn input[type="submit"],
+.submit-btn input[type="button"] {
   border: 2px solid #ffffff;
   cursor: pointer;
   margin: 15px 0 0 0;
@@ -167,7 +182,7 @@ header nav a {
   font-weight: 400;
 }
 
-.subject-search input[type="search"]{
+.subject-search input[type="text"]{
   border: none;
   padding: 5px;
   margin: 0 10px;
@@ -177,7 +192,7 @@ header nav a {
   border-bottom: 2px solid black;
 }
 
-.subject-search input[type="search"]::placeholder{
+.subject-search input[type="text"]::placeholder{
   color: black;
 }
 

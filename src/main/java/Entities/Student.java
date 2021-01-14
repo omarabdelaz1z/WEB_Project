@@ -1,9 +1,12 @@
 package Entities;
 
+import com.google.gson.Gson;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student extends User {
+public class Student extends User implements Serializable {
     private List<Reservation> reservations = new ArrayList<>();
 
     public Student(User user) {
@@ -24,5 +27,10 @@ public class Student extends User {
 
     public List<Reservation> getReservations(String ID) {
         return reservations;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

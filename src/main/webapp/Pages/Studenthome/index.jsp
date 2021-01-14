@@ -33,12 +33,32 @@
         $('#cancel').hide('slow');
       });
     });
+
+    function searchBySubject() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('search');
+        filter = input.value.toUpperCase();
+        table = document.getElementById('staffData');
+        tr = table.getElementsByTagName('tr');
+
+        for(i = 0; i < tr.length; i++){
+            td = tr[i].getElementsByTagName('td')[1];
+            if(td){
+                txtValue = td.textContent || td.innerText;
+                if(txtValue.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
   </script>
 
   <%
-    Student currentStudent = (Student) session.getAttribute("currentUser");
-    List<StaffMember> staffMembers = (List<StaffMember>) session.getAttribute("staffMembers");
-    pageContext.setAttribute("staffMembers", staffMembers);
+      Student currentStudent = (Student) session.getAttribute("currentUser");
+      List<StaffMember> staffMembers = (List<StaffMember>) session.getAttribute("staffMembers");
+      pageContext.setAttribute("staffMembers", staffMembers);
   %>
 </head>
 <body>
@@ -46,7 +66,6 @@
   <nav>
     <label>Welcome <%= currentStudent.getName()%> </label>
     <a href="#Profile">Profile</a>
-    <a href="#Reserve">Reserve</a>
     <a href="#Contact">Contact</a>
     <a href="${pageContext.request.contextPath}/Session">Logout</a>
   </nav>
@@ -95,9 +114,9 @@
         </section>
 
         <section class="submit-btn">
-          <input type="submit" id="edit" name="edit" value="Edit"/>
+          <input type="button" id="edit" name="edit" value="Edit"/>
           <input type="submit" style="display: none;" id="save" name="save" value="Save"/>
-          <input type="submit" style="display: none;" id="cancel" name="cancel" value="Cancel"/>
+          <input type="button" style="display: none;" id="cancel" name="cancel" value="Cancel"/>
         </section>
       </div>
     </section>
@@ -141,7 +160,7 @@
   <section class="subject-search">
     <section>
       <label>Search by subject</label>
-      <input type="search" name="subject" list="staffData" spellcheck="true" placeholder="Subject" />
+      <input type="text" id="search" onkeyup="searchBySubject();" name="subject" spellcheck="true" placeholder="Subject" />
     </section>
     <section>
       <table id="staffData">
@@ -151,64 +170,20 @@
           <th colspan="2">Email</th>
         </tr>
 
-        <%for (StaffMember member : staffMembers) {%>
-        <tr>
-          <td><%=member.getName()%></td>
-          <td><%=member.getSubject().getName()%></td>
-          <td><%=member.getEmail()%></td>
-          <td><a href="#staffProfile" onclick="<%pageContext.setAttribute("staff", member);%>">View more</a></td>
-        </tr>
-        <%}%>
+        <c:forEach var="staff" items="${staffMembers}">
+          <c:url var="staffMemberURL" value="/StaffProfileHandler">
+            <c:param name="staffMemberObject" value="${staff}"/>
+          </c:url>
+          <tr>
+            <td>${staff.name}</td>
+            <td>${staff.subject.name}</td>
+            <td>${staff.email}</td>
+            <td><a href="${staffMemberURL}">View more</a></td>
+          </tr>
+        </c:forEach>
       </table>
     </section>
   </section>
-
-  <!--Staff Profile-->
-  <form action="" method="POST" id="staffProfile" class="popup-overlay">
-    <%StaffMember staffMember = (StaffMember) pageContext.getAttribute("staff");%>
-    <section class="popup-window">
-      <h1>Staff Profile</h1>
-      <a class="close-btn" href="../Studenthome">&times;</a>
-      <div>
-        <section class="contact-box">
-          <label>Name: <%=staffMember.getName()%></label>
-        </section>
-
-        <section class="contact-box">
-          <label>Email: <%=staffMember.getEmail()%></label>
-        </section>
-
-        <section class="contact-box">
-          <label>Type: <%=staffMember.getType()%></label>
-        </section>
-
-        <section class="contact-box">
-          <label>Subject: <%=staffMember.getSubject().getName()%></label>
-        </section>
-
-        <section class="contact-box">
-          <table>
-            <tr>
-              <th>Day</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Type</th>
-              <th colspan="2">Location</th>
-            </tr>
-
-            <tr>
-              <td>Sunday</td>
-              <td>09:00:00</td>
-              <td>11:00:00</td>
-              <td>Online</td>
-              <td>Home</td>
-              <td><a href="">reserve</a></td>
-            </tr>
-          </table>
-        </section>
-      </div>
-    </section>
-  </form>
 </main>
 </body>
 </html>

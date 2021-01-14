@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 
 @Entity
@@ -81,13 +83,6 @@ public class Notification {
 
     @Override
     public String toString() {
-        return "Notification{" +
-                "ID='" + ID + '\'' +
-                ", senderID='" + senderID + '\'' +
-                ", receiverID='" + receiverID + '\'' +
-                ", subject='" + subject + '\'' +
-                ", content='" + content + '\'' +
-                ", sentDate='" + sentDate + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }

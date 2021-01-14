@@ -28,6 +28,26 @@
         $('#cancel').hide('slow');
       });
     });
+
+    function searchBySubject() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById('search');
+      filter = input.value.toUpperCase();
+      table = document.getElementById('staffData');
+      tr = table.getElementsByTagName('tr');
+
+      for(i = 0; i < tr.length; i++){
+        td = tr[i].getElementsByTagName('td')[1];
+        if(td){
+          txtValue = td.textContent || td.innerText;
+          if(txtValue.toUpperCase().indexOf(filter) > -1){
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
   </script>
 </head>
 <body>
@@ -176,7 +196,7 @@
   <section class="subject-search">
     <section>
       <label>Search by subject</label>
-      <input type="search" name="subject" list="staffData" spellcheck="true" placeholder="Subject" />
+      <input type="text" id="search" onkeyup="searchBySubject();" name="subject" list="staffData" spellcheck="true" placeholder="Subject" />
     </section>
     <section>
       <table id="staffData">
@@ -186,9 +206,9 @@
           <th colspan="2">Email</th>
         </tr>
 
-        <tr>
+        <tr id="row">
           <td>Amr</td>
-          <td>Database</td>
+          <td id="subject">Database</td>
           <td>example@outlook.com</td>
           <td><a href="#staffProfile">View More</a></td>
         </tr>

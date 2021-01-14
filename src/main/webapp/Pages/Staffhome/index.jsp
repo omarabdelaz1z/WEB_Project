@@ -33,10 +33,32 @@
         $('#cancel').hide('slow');
       });
     });
+
+    function searchByName() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('search');
+        filter = input.value.toUpperCase();
+        table = document.getElementById('studentData');
+        tr = table.getElementsByTagName('tr');
+
+        for(i = 0; i < tr.length; i++){
+            td = tr[i].getElementsByTagName('td')[0];
+            if(td){
+                txtValue = td.textContent || td.innerText;
+                if(txtValue.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
   </script>
 
   <%
     StaffMember currentStaff = (StaffMember) session.getAttribute("currentUser");
+    List<Student> students = (List<Student>) session.getAttribute("students");
+    pageContext.setAttribute("students", students);
   %>
 </head>
 <body>
@@ -44,7 +66,7 @@
   <nav>
     <label>Welcome <%= currentStaff.getName()%> </label>
     <a href="#Profile">Profile</a>
-    <a href="#Reserve">Reserve</a>
+    <a href="#Manage">Manage</a>
     <a href="#Contact">Contact</a>
     <a href="${pageContext.request.contextPath}/Session">Logout</a>
   </nav>
@@ -93,9 +115,9 @@
         </section>
 
         <section class="submit-btn">
-          <input type="submit" id="edit" name="edit" value="Edit"/>
+          <input type="button" id="edit" name="edit" value="Edit"/>
           <input type="submit" style="display: none;" id="save" name="save" value="Save"/>
-          <input type="submit" style="display: none;" id="cancel" name="cancel" value="Cancel"/>
+          <input type="button" style="display: none;" id="cancel" name="cancel" value="Cancel"/>
         </section>
       </div>
     </section>
@@ -135,73 +157,27 @@
     </section>
   </form>
 
-  <!--Staff Profile-->
-  <form action="" method="POST" id="staffProfile" class="popup-overlay">
-    <section class="popup-window">
-      <h1>Staff Profile</h1>
-      <a class="close-btn" href="../Studenthome">&times;</a>
-      <div>
-        <section class="contact-box">
-          <label>Name: Amr</label>
-        </section>
-
-        <section class="contact-box">
-          <label>Email: example@outlook.com</label>
-        </section>
-
-        <section class="contact-box">
-          <label>Type: Student</label>
-        </section>
-
-        <section class="contact-box">
-          <label>Subject: Database</label>
-        </section>
-
-        <section class="contact-box">
-          <table>
-            <tr>
-              <th>Day</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Type</th>
-              <th colspan="2">Location</th>
-            </tr>
-    
-            <tr>
-              <td>Sunday</td>
-              <td>09:00:00</td>
-              <td>11:00:00</td>
-              <td>Online</td>
-              <td>Home</td>
-              <td><a href="">reserve</a></td>
-            </tr>
-          </table>
-        </section>
-      </div>
-    </section>
-  </form>
-
   <!--Search for staff member by subject-->
   <section class="subject-search">
     <section>
       <label>Search</label>
-      <input type="search" name="name" list="staffData" spellcheck="true" placeholder="Name" />
+      <input type="text" id="search" onkeyup="searchByName();" name="name" spellcheck="true" placeholder="Name" />
     </section>
     <section>
-      <table id="staffData">
+      <table id="studentData">
         <tr>
           <th>Name</th>
-          <th colspan="2">Email</th>
+          <th colspan="2">Type</th>
         </tr>
 
-        <c:forEach var="student" items="">
-          <c:url var="View" value="index.jsp">
-            <c:param name="staffMember" value="${student}"/>
+        <c:forEach var="student" items="${students}">
+          <c:url var="View" value="/StudentProfileHandler">
+            <c:param name="studentObject" value="${student}"/>
           </c:url>
           <tr>
             <td>${student.name}</td>
-            <td>${student.email}</td>
-            <td><a href="#staffProfile">View more</a></td>
+            <td>${student.type}</td>
+            <td><a href="${View}">View more</a></td>
           </tr>
         </c:forEach>
       </table>

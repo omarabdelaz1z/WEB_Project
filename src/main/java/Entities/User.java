@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -130,13 +132,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "ID='" + ID + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", type='" + type + '\'' +
-                ", notifications=" + notifications +
-                '}';
+        return new Gson().toJson(this);
     }
 }

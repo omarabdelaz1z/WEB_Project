@@ -1,10 +1,13 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "subjects", uniqueConstraints = {@UniqueConstraint(columnNames = {"subjectID"})})
-public class Subject {
+public class Subject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subjectID", nullable = false, unique = true)
@@ -41,9 +44,6 @@ public class Subject {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "ID='" + ID + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }

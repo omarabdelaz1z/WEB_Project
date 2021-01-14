@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<StaffMember> staffMemberList = new UserDAO().getAllStaffMembers();
-        System.out.println(staffMemberList);
+        StaffMember staffMember = new StaffMember(new User("omar", "example@gmail.com", "GGEZPZ","STAFF","4"));
+        System.out.println(staffMember);
     }
 }

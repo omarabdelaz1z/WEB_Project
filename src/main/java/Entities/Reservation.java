@@ -1,11 +1,14 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reservations", uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
-public class Reservation {
+public class Reservation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false, unique = true)
@@ -92,11 +95,6 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" +
-                "ID='" + ID + '\'' +
-                ", fromDate=" + fromDate +
-                ", toDate=" + toDate +
-                ", status=" + status +
-                '}';
+        return new Gson().toJson(this);
     }
 }

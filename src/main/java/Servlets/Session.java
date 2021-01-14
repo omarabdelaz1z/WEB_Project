@@ -61,6 +61,7 @@ public class Session extends HttpServlet {
 
             else {
                 StaffMember staffMember = userDAO.prepareStaffMember(user);
+                List<Student> students = userDAO.getAllStudents();
 /*
                 StaffMember staffMember = new StaffMember(user);
                 List<Notification> notificationList =
@@ -76,6 +77,7 @@ public class Session extends HttpServlet {
                 staffMember.setSubject(subject);
 */
                 session.setAttribute("currentUser", staffMember);
+                session.setAttribute("students", students);
                 responseMessage = this.gson.toJson("STAFF");
             }
             response.getWriter().write(responseMessage);

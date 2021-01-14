@@ -113,4 +113,16 @@ public class UserDAO {
 
         return staffMember;
     }
+
+    public List<Student> getAllStudents(){
+        List<User> resultSet = userCRUD.query("SELECT U FROM User U WHERE U.type = 'STUDENT'");
+        List<Student> studentList = new ArrayList<>();
+
+        for(User user: resultSet) {
+            Student student = new Student(user);
+            studentList.add(student);
+        }
+
+        return studentList;
+    }
 }

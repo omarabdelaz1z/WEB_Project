@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +54,6 @@ public class StaffMember extends User  implements Serializable {
 
     @Override
     public String toString() {
-        return "StaffMember{" +
-                "ID='" + getID() + '\'' +
-                ", name='" + getName() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", type='" + getType() + '\'' +
-                ", notifications=" + getNotifications() + '\'' +
-                "subject=" + subject +
-                ", officeHour=" + officeHours +
-                '}';
+        return new Gson().toJson(this);
     }
 }
