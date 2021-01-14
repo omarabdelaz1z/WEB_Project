@@ -24,9 +24,10 @@ $(document).ready(function () {
                 if(data === "STUDENT"){
                     alert("Logged in successfully");
                     window.location.href = "http://localhost:8080/Pages/Studenthome";
-                } else if(data === "STAFF") {
+                }
+                else if(data === "STAFF") {
                     alert("Logged in successfully");
-                    // window.location.href = "http://localhost:8080/Pages/Studenthome";
+                    window.location.href = "http://localhost:8080/Pages/Staffhome";
                 } else {
                     alert(data);
                 }

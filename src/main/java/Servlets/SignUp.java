@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.SubjectDAO;
 import com.google.gson.Gson;
 
 import DAO.UserDAO;
@@ -36,9 +37,9 @@ public class SignUp extends HttpServlet {
                 .getParameter("g-recaptcha-response");
 
         // TODO: to be added.
-        if(new UserDAO().checkIfEmailAlreadyExists(email)){
-            return;
-        }
+//        if(new UserDAO().checkIfEmailAlreadyExists(email)){
+//            return;
+//        }
 
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
 
@@ -56,13 +57,14 @@ public class SignUp extends HttpServlet {
             mailManager.sendEmail(email, "Verify Mail", content);
             if (type.equals("student")) {
                 UserDAO userDAO = new UserDAO();
-                User user = userDAO.create(new User(name, email, generatedPassword,"Student"));
+                User user = userDAO.create(new User(name, email, generatedPassword,"Student", ""));
                 Student student = new Student(user);
                 session.setAttribute("currentUser", student);
 
             } else if (type.equals("staffMember")) {
                 UserDAO userDAO = new UserDAO();
-                User user = userDAO.create(new User(name, email, generatedPassword,"STAFF"));
+                String subjectID = new SubjectDAO().getSubjectByName(subject).getID();
+                User user = userDAO.create(new User(name, email, generatedPassword,"STAFF", subjectID));
                 StaffMember staffMember = new StaffMember(user);
                 session.setAttribute("currentUser", staffMember);
             }

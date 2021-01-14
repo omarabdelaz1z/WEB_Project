@@ -36,15 +36,13 @@
   </script>
 
   <%
-    Student currentStudent = (Student) session.getAttribute("currentUser");
-    List<StaffMember> staffMembers = (List<StaffMember>) session.getAttribute("staffMembers");
-    pageContext.setAttribute("staffMembers", staffMembers);
+    StaffMember currentStaff = (StaffMember) session.getAttribute("currentUser");
   %>
 </head>
 <body>
 <header>
   <nav>
-    <label>Welcome <%= currentStudent.getName()%> </label>
+    <label>Welcome <%= currentStaff.getName()%> </label>
     <a href="#Profile">Profile</a>
     <a href="#Reserve">Reserve</a>
     <a href="#Contact">Contact</a>
@@ -57,10 +55,10 @@
   <form action="" method="POST" id="Profile" class="popup-overlay">
     <section class="popup-window">
       <h1>Profile</h1>
-      <a class="close-btn" href="../Studenthome">&times;</a>
+      <a class="close-btn" href="../Staffhome">&times;</a>
       <div>
         <section class="contact-box">
-          <label class="data">Name: <%=currentStudent.getName()%></label>
+          <label class="data">Name: <%=currentStaff.getName()%></label>
           <input
                   type="text"
                   class="input"
@@ -72,15 +70,15 @@
         </section>
 
         <section class="contact-box">
-          <label>Email: <%=currentStudent.getEmail()%></label>
+          <label>Email: <%=currentStaff.getEmail()%></label>
         </section>
 
         <section class="contact-box">
-          <label>Type: <%=currentStudent.getType()%></label>
+          <label>Type: <%=currentStaff.getType()%></label>
         </section>
 
         <section class="contact-box">
-          <label class="data">Password: <%=currentStudent.getPassword()%></label>
+          <label class="data">Password: <%=currentStaff.getPassword()%></label>
           <input
                   type="password"
                   class="input"
@@ -107,7 +105,7 @@
   <form action="" method="POST" id="Contact" class="popup-overlay">
     <section class="popup-window">
       <h1>Contact</h1>
-      <a class="close-btn" href="../Studenthome">&times;</a>
+      <a class="close-btn" href="../Staffhome">&times;</a>
       <div>
         <section class="contact-box">
           <label>To</label>
@@ -137,53 +135,26 @@
     </section>
   </form>
 
-  <!--Search for staff member by subject-->
-  <section class="subject-search">
-    <section>
-      <label>Search by subject</label>
-      <input type="search" name="subject" list="staffData" spellcheck="true" placeholder="Subject" />
-    </section>
-    <section>
-      <table id="staffData">
-        <tr>
-          <th>Name</th>
-          <th>Subject</th>
-          <th colspan="2">Email</th>
-        </tr>
-
-        <%for (StaffMember member : staffMembers) {%>
-        <tr>
-          <td><%=member.getName()%></td>
-          <td><%=member.getSubject().getName()%></td>
-          <td><%=member.getEmail()%></td>
-          <td><a href="#staffProfile" onclick="<%pageContext.setAttribute("staff", member);%>">View more</a></td>
-        </tr>
-        <%}%>
-      </table>
-    </section>
-  </section>
-
   <!--Staff Profile-->
   <form action="" method="POST" id="staffProfile" class="popup-overlay">
-    <%StaffMember staffMember = (StaffMember) pageContext.getAttribute("staff");%>
     <section class="popup-window">
       <h1>Staff Profile</h1>
       <a class="close-btn" href="../Studenthome">&times;</a>
       <div>
         <section class="contact-box">
-          <label>Name: <%=staffMember.getName()%></label>
+          <label>Name: Amr</label>
         </section>
 
         <section class="contact-box">
-          <label>Email: <%=staffMember.getEmail()%></label>
+          <label>Email: example@outlook.com</label>
         </section>
 
         <section class="contact-box">
-          <label>Type: <%=staffMember.getType()%></label>
+          <label>Type: Student</label>
         </section>
 
         <section class="contact-box">
-          <label>Subject: <%=staffMember.getSubject().getName()%></label>
+          <label>Subject: Database</label>
         </section>
 
         <section class="contact-box">
@@ -195,7 +166,7 @@
               <th>Type</th>
               <th colspan="2">Location</th>
             </tr>
-
+    
             <tr>
               <td>Sunday</td>
               <td>09:00:00</td>
@@ -209,6 +180,33 @@
       </div>
     </section>
   </form>
+
+  <!--Search for staff member by subject-->
+  <section class="subject-search">
+    <section>
+      <label>Search</label>
+      <input type="search" name="name" list="staffData" spellcheck="true" placeholder="Name" />
+    </section>
+    <section>
+      <table id="staffData">
+        <tr>
+          <th>Name</th>
+          <th colspan="2">Email</th>
+        </tr>
+
+        <c:forEach var="student" items="">
+          <c:url var="View" value="index.jsp">
+            <c:param name="staffMember" value="${student}"/>
+          </c:url>
+          <tr>
+            <td>${student.name}</td>
+            <td>${student.email}</td>
+            <td><a href="#staffProfile">View more</a></td>
+          </tr>
+        </c:forEach>
+      </table>
+    </section>
+  </section>
 </main>
 </body>
 </html>

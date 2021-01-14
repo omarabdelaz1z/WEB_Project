@@ -23,20 +23,12 @@ $(document).ready(function () {
         const type = $('.type:checked').val();
         const subject = $('.subject:checked').val();
 
-        if(type === 'staffMember'){
-            dataString =
-                'name=' + name +
-                '&type=' + type +
-                '&email=' + email +
-                '&subject=' + subject +
-                '&g-recaptcha-response=' + grecaptcha.getResponse();
-        } else {
-            dataString =
-                'name=' + name +
-                '&type=' + type +
-                '&email=' + email +
-                '&g-recaptcha-response=' + grecaptcha.getResponse();
-        }
+        dataString =
+            'name=' + name +
+            '&type=' + type +
+            '&email=' + email +
+            '&subject=' + subject +
+            '&g-recaptcha-response=' + grecaptcha.getResponse();
 
         $.ajax({
             type : 'POST',

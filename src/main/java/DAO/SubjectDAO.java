@@ -29,4 +29,12 @@ public class SubjectDAO {
     public Subject getSubjectByID(String ID){
         return subjectCRUD.read(ID);
     }
+
+    public List<Subject> getSubject(String query){
+        return subjectCRUD.query(query);
+    }
+
+    public Subject getSubjectByName(String name){
+        return subjectCRUD.query("select S from Subject S where S.name = '" + name +"'").get(0);
+    }
 }

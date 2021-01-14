@@ -1,11 +1,12 @@
 package Entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffMember extends User {
+public class StaffMember extends User  implements Serializable {
     private Subject subject;
-    private OfficeHour officeHour;
+    private List<OfficeHour> officeHours;
     private List<Reservation> reservations = new ArrayList<>();
 
     public StaffMember(User user) {
@@ -14,10 +15,15 @@ public class StaffMember extends User {
         super.setEmail(user.getEmail());
         super.setPassword(user.getPassword());
         super.setType(user.getType());
+        super.setSubjectID(user.getSubjectID());
     }
 
-    public StaffMember(String name, String email, String password) {
-        super(name, email, password, "STAFF");
+    public StaffMember(String name, String email, String password, String subjectID) {
+        super(name, email, password, "STAFF", subjectID);
+    }
+
+    public StaffMember() {
+
     }
 
     public void setSubject(Subject subject) {
@@ -28,12 +34,12 @@ public class StaffMember extends User {
         return subject;
     }
 
-    public void setOfficeHour(OfficeHour officeHour) {
-        this.officeHour = officeHour;
+    public void setOfficeHour(List<OfficeHour> officeHours) {
+        this.officeHours = officeHours;
     }
 
-    public OfficeHour getOfficeHour() {
-        return officeHour;
+    public List<OfficeHour> getOfficeHour() {
+        return officeHours;
     }
 
     public void setReservations(List<Reservation> reservations) {
@@ -53,7 +59,7 @@ public class StaffMember extends User {
                 ", type='" + getType() + '\'' +
                 ", notifications=" + getNotifications() + '\'' +
                 "subject=" + subject +
-                ", officeHour=" + officeHour +
+                ", officeHour=" + officeHours +
                 '}';
     }
 }
