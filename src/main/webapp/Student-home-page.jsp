@@ -3,6 +3,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Entities.User" %>
 <%@ page import="DAO.UserDAO" %>
+<%@ page import="Entities.Subject" %>
+<%@ page import="DAO.SubjectDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -93,10 +95,12 @@
                 <%
                     if (users == null || users.isEmpty()) {
                         for (User ob : allStaffMembers) {
+                            SubjectDAO subjectDAO = new SubjectDAO();
+                            Subject subject = subjectDAO.getSubjectByID(ob.getSubjectID());
                             out.print("<tr>");
                             out.print("<td>" + ob.getName() + "</td>");
                             out.print("<td>" + ob.getEmail() + "</td>");
-                            out.print("<td>" + ob.getSubjectID() + "</td>");
+                            out.print("<td>" + subject.getName() + "</td>");
                             out.print("<td>");
                             out.print("<form action=\"showContact\" method=\"POST\">");
                             out.print("<input type=\"hidden\" name=\"contactID\" value=\"" + ob.getID() + "\">");
