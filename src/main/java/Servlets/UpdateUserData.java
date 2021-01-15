@@ -4,6 +4,7 @@ import DAO.UserDAO;
 import Entities.StaffMember;
 import Entities.Student;
 import Entities.User;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @WebServlet(name = "UpdateUserData", value = "/UpdateUserData")
 public class UpdateUserData extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("currentUser");
 
@@ -27,17 +28,15 @@ public class UpdateUserData extends HttpServlet {
 
         new UserDAO().updateUserData(user.getID(), user);
 
-        response.getWriter().write("<script> alert('Updated Successfully') </script>");
         if(user instanceof Student){
             Student student = (Student) user;
             session.setAttribute("currentUser", student);
-            request.getRequestDispatcher("/Pages/Studenthome").forward(request, response);
         }
 
         else if(user instanceof StaffMember){
             StaffMember staffMember = (StaffMember) user;
             session.setAttribute("currentUser", staffMember);
-            request.getRequestDispatcher("/Pages/Staffhome").forward(request, response);
         }
+        response.getWriter().write(new Gson().toJson("Updated Successfully"));
     }
 }

@@ -5,6 +5,8 @@ import DAO.UserDAO;
 import Entities.Notification;
 import Entities.StaffMember;
 import Utils.MailManager;
+import com.google.gson.Gson;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,30 +33,28 @@ public class NotifyStaff extends HttpServlet {
         List<StaffMember> staffMembersList = new UserDAO().getAllStaffMembers();
         MailManager mailManager = new MailManager();
 
-        staffMembersList.remove(staffMembersList.indexOf(currentUser));
-
         if(!staffMembersList.isEmpty())
         {
             for (StaffMember staffMember : staffMembersList)
             {
                 if (staffMember.getSubject().getName().equals(subjectName))
                 {
-                    String toEmail = staffMember.getEmail();
-                    String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                    String receiverID = staffMember.getID();
-                    mailManager.sendEmail(toEmail, subject, content);
+                    if (!currentUser.getID().equals(staffMember.getID()))
+                    {
+                        String toEmail = staffMember.getEmail();
+                        String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                        String receiverID = staffMember.getID();
+                        mailManager.sendEmail(toEmail, subject, content);
 
-                    Notification notification =
-                            new NotificationDAO().createNotification(new Notification(senderID, receiverID, subject, content, currentDate));
+                        Notification notification =
+                                new NotificationDAO().createNotification(new Notification(senderID, receiverID, subject, content, currentDate));
 
-                    currentUser.addNotification(notification);
+                        currentUser.addNotification(notification);
+                    }
                 }
             }
             session.setAttribute("currentUser", currentUser);
-            response.getWriter().write("<script> alert('Sent Successfully') </script>");
-        } else {
-            response.getWriter().write("<script> alert('There is no staff member in this subject') </script>");
-        }
-        request.getRequestDispatcher("/Pages/Staffhome").forward(request, response);
+            response.getWriter().write(new Gson().toJson("Sent Successfully"));
+        } else response.getWriter().write(new Gson().toJson("There is no staff member in this subject"));
     }
 }

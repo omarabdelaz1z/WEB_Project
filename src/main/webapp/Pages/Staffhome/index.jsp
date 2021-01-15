@@ -15,86 +15,9 @@
           rel="stylesheet"
   />
   <title>Home</title>
-  <script>
-    $(document).ready(function(){
-      $('#edit').click(function(){
-        $('.data').hide('slow');
-        $('.input').show('slow');
-        $('#edit').hide(1000);
-        $('#cancel').show('slow');
-        $('#save').show('slow');
-      });
-
-      $('#cancel').click(function(){
-        $('.data').show('slow');
-        $('.input').hide('slow');
-        $('#edit').show(1000);
-        $('#save').hide('slow');
-        $('#cancel').hide('slow');
-      });
-    });
-
-    function searchByName() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById('search');
-        filter = input.value.toUpperCase();
-        table = document.getElementById('studentData');
-        tr = table.getElementsByTagName('tr');
-
-        for(i = 0; i < tr.length; i++){
-            td = tr[i].getElementsByTagName('td')[0];
-            if(td){
-                txtValue = td.textContent || td.innerText;
-                if(txtValue.toUpperCase().indexOf(filter) > -1){
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
-
-    (function (document) {
-        'use strict';
-        var TableFilter = (function(Arr){
-            var input;
-
-            function onInputEvent(e) {
-                input = e.target;
-                var tables = document.getElementsByClassName(input.getAttribute('data-table'));
-                Arr.forEach.call(tables, function(table){
-                    Arr.forEach.call(table.tBodies, function (tbody) {
-                        Arr.forEach.call(tbody.rows, filter);
-                    });
-                });
-            }
-
-            function filter(row) {
-                var text = row.textContent.toLowerCase(), val = input.value.toLowerCase();
-                row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
-            }
-
-            return{
-                init: function () {
-                    var inputs = document.getElementsByClassName('search');
-                    Arr.forEach.call(inputs, function (input) {
-                        input.oninput = onInputEvent;
-                    });
-                }
-            };
-        })(Array.prototype);
-
-        document.addEventListener('readystatechange', function(){
-            if(document.readyState === 'complete'){
-                TableFilter.init();
-            }
-        });
-    })(document);
-  </script>
-
+  <script src="../../js/StaffHome.js"></script>
   <%
     StaffMember currentStaff = (StaffMember) session.getAttribute("currentUser");
-    System.out.println(currentStaff);
     List<Student> students = (List<Student>) session.getAttribute("students");
     pageContext.setAttribute("students", students);
   %>
@@ -114,7 +37,7 @@
 
 <main>
   <!--Profile Popup-->
-  <form action="${pageContext.request.contextPath}/UpdateUserData" method="POST" id="Profile" class="popup-overlay">
+  <form id="Profile" class="popup-overlay">
     <section class="popup-window">
       <h1>Profile</h1>
       <a class="close-btn" href="../Staffhome">&times;</a>
@@ -124,6 +47,7 @@
           <input
                   type="text"
                   class="input"
+                  id="name"
                   style="display: none;"
                   name="name"
                   placeholder="Eg. Amr Samy"
@@ -164,7 +88,7 @@
   </form>
   
   <!--Contact Popup-->
-  <form action="${pageContext.request.contextPath}/SendEmail" method="POST" id="Contact" class="popup-overlay">
+  <form id="Contact" class="popup-overlay">
     <section class="popup-window">
       <h1>Contact</h1>
       <a class="close-btn" href="../Staffhome">&times;</a>
@@ -173,6 +97,7 @@
           <label>To</label>
           <input
                   type="email"
+                  id="email"
                   name="email"
                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                   placeholder="example@outlook.com"
@@ -182,23 +107,23 @@
 
         <section class="contact-box">
           <label>Subject</label>
-          <input type="text" name="subject" placeholder="Subject" required />
+          <input type="text" class="subject" name="subject" placeholder="Subject" required />
         </section>
 
         <section class="contact-box">
           <label>Content</label>
-          <textarea name="message" wrap="hard" placeholder="Enter your message" rows="5" required></textarea>
+          <textarea name="message" class="message" wrap="hard" placeholder="Enter your message" rows="5" required></textarea>
         </section>
 
         <section class="submit-btn">
-          <input type="submit" name="send" value="Send"/>
+          <input type="submit" id="SendMessage" name="send" value="Send"/>
         </section>
       </div>
     </section>
   </form>
 
   <!--MessageSubjectTeam Popup-->
-  <form action="${pageContext.request.contextPath}/NotifyStaff" method="POST" id="MessageSubjectTeam" class="popup-overlay">
+  <form id="MessageSubjectTeam" class="popup-overlay">
     <section class="popup-window">
       <h1>Contact Subject Team</h1>
       <a class="close-btn" href="../Staffhome">&times;</a>
@@ -207,6 +132,7 @@
           <label>Subject Name</label>
           <input
                   list="Subjects"
+                  id="subjectName"
                   name="subjectName"
                   placeholder="Subject Name"
                   required
@@ -221,16 +147,16 @@
 
         <section class="contact-box">
           <label>Subject</label>
-          <input type="text" name="subject" placeholder="Subject" required />
+          <input type="text" id="subject" name="subject" placeholder="Subject" required />
         </section>
 
         <section class="contact-box">
           <label>Content</label>
-          <textarea name="message" wrap="hard" placeholder="Enter your message" rows="5" required></textarea>
+          <textarea name="message" id="message" wrap="hard" placeholder="Enter your message" rows="5" required></textarea>
         </section>
 
         <section class="submit-btn">
-          <input type="submit" name="send" value="Send"/>
+          <input type="submit" id="send" name="send" value="Send"/>
         </section>
       </div>
     </section>
