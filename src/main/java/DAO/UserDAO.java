@@ -1,12 +1,9 @@
 package DAO;
 
 import Database.HibernateUtil;
+import Entities.*;
 import Entities.CRUD.ICRUD;
 import Entities.CRUD.UserCRUD;
-import Entities.OfficeHour;
-import Entities.StaffMember;
-import Entities.Subject;
-import Entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +91,15 @@ public class UserDAO {
         return user;
     }
 
+    public Student getStudent(String id) {
+        User user = userCRUD.read(id);
+        Student student = new Student(user.getName(), user.getEmail(), user.getPassword());
+        return student;
+    }
+
+    public void updateUser(User user) {
+        userCRUD.update(user.getID(), user);
+    }
     // TODO: Prepare Staff Member Object
     // TODO: Prepare Student Object
 }

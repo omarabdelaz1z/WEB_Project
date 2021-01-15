@@ -18,10 +18,10 @@ public class Reservation {
     private String staffID;
 
     @Column(name = "fromDate", nullable = false)
-    private LocalDateTime fromDate;
+    private String fromDate;
 
     @Column(name = "toDate", nullable = false)
-    private LocalDateTime toDate;
+    private String toDate;
 
     @Column(name = "status", nullable = false)
     private boolean status;
@@ -30,7 +30,7 @@ public class Reservation {
 
     }
 
-    public Reservation(String ID, String reserveeID, String staffID, LocalDateTime fromDate, LocalDateTime toDate) {
+    public Reservation(String ID, String reserveeID, String staffID, String fromDate, String toDate) {
         this.ID = ID;
         this.reserveeID = reserveeID;
         this.staffID = staffID;
@@ -57,20 +57,20 @@ public class Reservation {
         return this;
     }
 
-    public LocalDateTime getFromDate() {
+    public String getFromDate() {
         return fromDate;
     }
 
-    public Reservation setFromDate(LocalDateTime fromDate) {
+    public Reservation setFromDate(String fromDate) {
         this.fromDate = fromDate;
         return this;
     }
 
-    public LocalDateTime getToDate() {
+    public String getToDate() {
         return toDate;
     }
 
-    public Reservation setToDate(LocalDateTime toDate) {
+    public Reservation setToDate(String toDate) {
         this.toDate = toDate;
         return this;
     }

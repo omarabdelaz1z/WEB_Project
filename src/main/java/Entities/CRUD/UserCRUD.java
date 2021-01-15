@@ -53,7 +53,7 @@ public class UserCRUD implements ICRUD<User> {
         object.setID(ID);
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        User user = session.get(User.class, Integer.parseInt(ID));
+        User user = session.get(User.class, ID);
         user.updateUser(object);
         session.getTransaction().commit();
         return user;

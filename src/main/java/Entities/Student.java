@@ -25,4 +25,5 @@ public class Student extends User {
     public List<Reservation> getReservations(String ID) {
         return reservations;
     }
+
 }
