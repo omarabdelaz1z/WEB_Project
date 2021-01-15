@@ -8,9 +8,9 @@
 <%
     UserDAO userDAO = new UserDAO();
     List<User> users = (List<User>) session.getAttribute("searchBySubjectResult");
-    pageContext.setAttribute("searchResult", users);
+    //pageContext.setAttribute("searchResult", users);
     List<User> allStaffMembers = userDAO.getStaffMembers();
-    pageContext.setAttribute("allStaff", allStaffMembers);
+    //pageContext.setAttribute("allStaff", allStaffMembers);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,45 +90,37 @@
                     <th>Email</th>
                     <th colspan="2">Subject</th>
                 </tr>
-                <c:choose>
-                    <c:when test="${searchResult==null}">
-                        <c:forEach var="staffMember" items="${allStaff}">
-                            <tr>
-                                <td>${staffMember.name}</td>
-                                <td>${staffMember.email}</td>
-                                <td>${staffMember.subjectID}</td>
-                                <td>
-                                        <%--<c:redirect url="/Reservations.jsp">
-                                            <c:param name="contactID" value="${staffMember.ID}"/>
-                                        </c:redirect>--%>
-                                    <c:url value="/Reservations.jsp" var="showMore">
-                                        <c:param name="contactID" value="${staffMember.ID}"/>
-                                    </c:url>
-                                    <a href="/<c:out value="${showMore}"/>">View more</a>
-                                        <%--<c:import url="#">
-                                            <c:param name="contactID" value="${staffMember.ID}"/>
-                                        </c:import>
-                                        <a href="Reservations.jsp">Show more</a>--%>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach var="user" items="${searchResult}">
-                            <tr>
-                                <td>${user.name}</td>
-                                <td>${user.email}</td>
-                                <td>${user.subjectID}</td>
-                                <td>
-                                    <c:url value="/test.html" var="showMore">
-                                        <c:param name="contactID" value="${user.ID}"/>
-                                    </c:url>
-                                    <a href="/<c:out value="${showMore}"/>">View more</a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
+                <%
+                    if (users == null || users.isEmpty()) {
+                        for (User ob : allStaffMembers) {
+                            out.print("<tr>");
+                            out.print("<td>" + ob.getName() + "</td>");
+                            out.print("<td>" + ob.getEmail() + "</td>");
+                            out.print("<td>" + ob.getSubjectID() + "</td>");
+                            out.print("<td>");
+                            out.print("<form action=\"showContact\" method=\"POST\">");
+                            out.print("<input type=\"hidden\" name=\"contactID\" value=\"" + ob.getID() + "\">");
+                            out.print("<input type=\"submit\" value=\"Show More\">");
+                            out.print("</form>");
+                            out.print("</td>");
+                            out.print("</tr>");
+                        }
+                    } else {
+                        for (User ob : users) {
+                            out.print("<tr>");
+                            out.print("<td>" + ob.getName() + "</td>");
+                            out.print("<td>" + ob.getEmail() + "</td>");
+                            out.print("<td>" + ob.getSubjectID() + "</td>");
+                            out.print("<td>");
+                            out.print("<form action=\"showContact\" method=\"POST\">");
+                            out.print("<input type=\"hidden\" name=\"contactID\" value=\"" + ob.getID() + "\">");
+                            out.print("<input type=\"submit\" value=\"Show More\">");
+                            out.print("</form>");
+                            out.print("</td>");
+                            out.print("</tr>");
+                        }
+                    }
+                %>
             </table>
         </section>
     </section>

@@ -28,4 +28,15 @@ public class ReservationDAO {
             return new ArrayList<>();
         }
     }
+
+    public void cancelReservation(String reservationID) {
+        Reservation reservation = reservationCRUD.read(reservationID);
+        reservation.setStatus(false);
+        reservationCRUD.update(reservationID, reservation);//here
+    }
+
+    public List<Reservation> getUserReservations(String id) {
+        List<Reservation> reservations = reservationCRUD.query("SELECT R FROM Reservation R WHERE R.reserveeID = '" + id + "'");
+        return reservations;
+    }
 }

@@ -2,6 +2,7 @@ package Entities.CRUD;
 
 import Database.HibernateUtil;
 import Entities.Reservation;
+import Entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -44,7 +45,13 @@ public class ReservationCRUD implements ICRUD<Reservation> {
 
     @Override
     public Reservation update(String ID, Reservation object) {
-        return null;
+        object.setID(ID);
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Reservation reservation = session.get(Reservation.class, ID);//here
+        reservation.updateReservation(object);
+        session.getTransaction().commit();
+        return reservation;
     }
 
     @Override

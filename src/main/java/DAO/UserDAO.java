@@ -89,6 +89,11 @@ public class UserDAO {
         return userCRUD.query("SELECT U FROM User U WHERE U.email = '" + email + "' ") != null;
     }
 
+    public User getUserbyID(String id) {
+        User user = userCRUD.read(id);
+        return user;
+    }
+
     // TODO: Prepare Staff Member Object
     // TODO: Prepare Student Object
 }

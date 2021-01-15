@@ -26,16 +26,26 @@ public class Reservation {
     @Column(name = "status", nullable = false)
     private boolean status;
 
-    public Reservation(){
+    public Reservation() {
 
     }
 
-    public Reservation(String ID, String reserveeID, String staffID, LocalDateTime fromDate, LocalDateTime toDate){
+    public Reservation(String ID, String reserveeID, String staffID, LocalDateTime fromDate, LocalDateTime toDate) {
         this.ID = ID;
         this.reserveeID = reserveeID;
         this.staffID = staffID;
         this.fromDate = fromDate;
         this.toDate = toDate;
+    }
+
+    public Reservation updateReservation(Reservation reservation) {
+        this.ID = reservation.getID();
+        this.reserveeID = reservation.getReserveeID();
+        this.staffID = reservation.getStaffID();
+        this.fromDate = reservation.getFromDate();
+        this.toDate = reservation.getToDate();
+        this.status = reservation.isStatus();
+        return this;
     }
 
     public String getID() {

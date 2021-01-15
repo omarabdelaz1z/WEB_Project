@@ -27,16 +27,16 @@ public class SearchBySubject extends HttpServlet {
             //session value will be null
             session.setAttribute("searchBySubjectResult", null);
             //destination page might cause an error
-            response.sendRedirect(request.getContextPath() + "/test.jsp");
-            //response.sendRedirect(request.getContextPath() + "/Pages/Studenthome/index.jsp");
+            response.sendRedirect(request.getContextPath() + "/Student-home-page.jsp");
+            //response.sendRedirect(request.getContextPath() + "../webapp/Pages/Studenthome/index.jsp");
         } else {
             List<User> users = userDAO.getUsersBySubject(subjectID);
             //session value will be null if users is empty
             //and list of users if it is not
             session.setAttribute("searchBySubjectResult", users);
             //destination page might cause an error
-            response.sendRedirect(request.getContextPath() + "/test.jsp");
-            //response.sendRedirect(request.getContextPath() + "/Pages/Studenthome/index.jsp");
+            response.sendRedirect(request.getContextPath() + "/Student-home-page.jsp");
+            //response.sendRedirect(request.getContextPath() + "/index.jsp");
         }
     }
 
