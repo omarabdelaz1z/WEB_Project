@@ -27,6 +27,18 @@ public class Notification {
     @Column(name = "sentDate", nullable=false)
     private String sentDate;
 
+    public Notification(String senderID, String receiverID, String subject, String content, String sentDate){
+        this.senderID = senderID;
+        this.receiverID = receiverID;
+        this.subject = subject;
+        this.content = content;
+        this.sentDate = sentDate;
+    }
+
+    public Notification(){
+
+    }
+
     public String getID() {
         return ID;
     }

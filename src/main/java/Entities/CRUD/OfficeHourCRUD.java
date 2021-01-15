@@ -47,7 +47,7 @@ public class OfficeHourCRUD implements ICRUD <OfficeHour> {
         object.setID(ID);
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        OfficeHour officeHour = session.get(OfficeHour.class, Integer.parseInt(ID));
+        OfficeHour officeHour = session.get(OfficeHour.class, ID);
         officeHour.update(object);
         session.getTransaction().commit();
         return officeHour;
@@ -56,7 +56,8 @@ public class OfficeHourCRUD implements ICRUD <OfficeHour> {
     @Override
     public void delete(String ID) {
         Session session = sessionFactory.getCurrentSession();
-        OfficeHour officeHour = session.get(OfficeHour.class, Integer.parseInt(ID));
+        session.beginTransaction();
+        OfficeHour officeHour = session.get(OfficeHour.class, ID);
         session.delete(officeHour);
         session.getTransaction().commit();
     }

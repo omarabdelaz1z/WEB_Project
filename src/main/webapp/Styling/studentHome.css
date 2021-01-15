@@ -78,7 +78,7 @@ header nav a {
   padding: 2em;
   background: rgb(245, 68, 68);
   border-radius: 5px;
-  width: 40%;
+  width: 50%;
   min-height: 70vh;
   position: relative;
   transition: all 5s ease-in-out;
@@ -182,7 +182,31 @@ header nav a {
   font-weight: 400;
 }
 
-.subject-search input[type="text"]{
+section a{
+  color: #000000;
+  font-size: 1.2em;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: all 0.3s;
+  background-color: transparent;
+}
+
+.subject-search input[type="submit"]{
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  margin: 15px 0 0 0;
+  padding: 16px 35px;
+  color: #ffffff;
+  font-size: 1.2em;
+  border-radius: 25px;
+  transition: all 0.3s;
+  background-color: transparent;
+}
+
+.subject-search input[type="search"],
+.subject-search input[type="text"],
+.subject-search input[type="number"],
+.subject-search input[type="time"]{
   border: none;
   padding: 5px;
   margin: 0 10px;
@@ -192,7 +216,21 @@ header nav a {
   border-bottom: 2px solid black;
 }
 
-.subject-search input[type="text"]::placeholder{
+.subject-search .contact-box input[type="text"],
+.subject-search .contact-box input[type="number"],
+.subject-search .contact-box input[type="time"]{
+  border: none;
+  padding: 5px;
+  margin: 0 10px;
+  outline: none;
+  font-size: 1.2em;
+  background: none;
+  border-bottom: 2px solid black;
+}
+
+.subject-search input[type="search"]::placeholder,
+.subject-search input[type="text"]::placeholder,
+.subject-search input[type="number"]::placeholder{
   color: black;
 }
 
@@ -212,4 +250,14 @@ header nav a {
   padding: 15px;
   border: 3px solid white;
   border-collapse: collapse;
+}
+
+.subject-search input[type="number"]::-webkit-outer-spin-button,
+.subject-search input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"]{
+  -moz-appearance: textfield;
 }

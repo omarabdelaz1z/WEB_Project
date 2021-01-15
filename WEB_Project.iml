@@ -8,7 +8,7 @@
         <datasource-mapping>
           <factory-entry name="Entities" value="b9258c81-6b5a-4caf-9e18-548abb325b88" />
           <factory-entry name="WEB_Project" value="789051e1-c0f8-4814-9529-8f34a07a4fb5" />
-          <factory-entry name="default" value="5c99a9dd-1cd6-48b1-b1fa-4860dc0e7c15" />
+          <factory-entry name="default" value="b9258c81-6b5a-4caf-9e18-548abb325b88" />
         </datasource-mapping>
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />

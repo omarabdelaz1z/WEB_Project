@@ -53,6 +53,43 @@
             }
         }
     }
+
+    (function (document) {
+        'use strict';
+        var TableFilter = (function(Arr){
+            var input;
+
+            function onInputEvent(e) {
+                input = e.target;
+                var tables = document.getElementsByClassName(input.getAttribute('data-table'));
+                Arr.forEach.call(tables, function(table){
+                    Arr.forEach.call(table.tBodies, function (tbody) {
+                        Arr.forEach.call(tbody.rows, filter);
+                    });
+                });
+            }
+
+            function filter(row) {
+                var text = row.textContent.toLowerCase(), val = input.value.toLowerCase();
+                row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+            }
+
+            return{
+                init: function () {
+                    var inputs = document.getElementsByClassName('search');
+                    Arr.forEach.call(inputs, function (input) {
+                        input.oninput = onInputEvent;
+                    });
+                }
+            };
+        })(Array.prototype);
+
+        document.addEventListener('readystatechange', function(){
+            if(document.readyState === 'complete'){
+                TableFilter.init();
+            }
+        });
+    })(document);
   </script>
 
   <%
@@ -73,7 +110,7 @@
 
 <main>
   <!--Profile Popup-->
-  <form action="" method="POST" id="Profile" class="popup-overlay">
+  <form action="${pageContext.request.contextPath}/UpdateUserData" method="POST" id="Profile" class="popup-overlay">
     <section class="popup-window">
       <h1>Profile</h1>
       <a class="close-btn" href="../Studenthome">&times;</a>
@@ -123,7 +160,7 @@
   </form>
   
   <!--Contact Popup-->
-  <form action="" method="POST" id="Contact" class="popup-overlay">
+  <form action="${pageContext.request.contextPath}/SendEmail" method="POST" id="Contact" class="popup-overlay">
     <section class="popup-window">
       <h1>Contact</h1>
       <a class="close-btn" href="../Studenthome">&times;</a>
@@ -160,27 +197,31 @@
   <section class="subject-search">
     <section>
       <label>Search by subject</label>
-      <input type="text" id="search" onkeyup="searchBySubject();" name="subject" spellcheck="true" placeholder="Subject" />
+      <input type="search" class="search" data-table="table-info" name="subject" spellcheck="true" placeholder="Subject" />
     </section>
     <section>
-      <table id="staffData">
-        <tr>
-          <th>Name</th>
-          <th>Subject</th>
-          <th colspan="2">Email</th>
-        </tr>
-
-        <c:forEach var="staff" items="${staffMembers}">
-          <c:url var="staffMemberURL" value="/StaffProfileHandler">
-            <c:param name="staffMemberObject" value="${staff}"/>
-          </c:url>
+      <table class="table-info">
+        <thead>
           <tr>
-            <td>${staff.name}</td>
-            <td>${staff.subject.name}</td>
-            <td>${staff.email}</td>
-            <td><a href="${staffMemberURL}">View more</a></td>
+            <th>Name</th>
+            <th>Subject</th>
+            <th colspan="2">Email</th>
           </tr>
-        </c:forEach>
+        </thead>
+
+        <tbody>
+          <c:forEach var="staff" items="${staffMembers}">
+            <c:url var="staffMemberURL" value="/StaffProfileHandler">
+              <c:param name="staffMemberObject" value="${staff}"/>
+            </c:url>
+            <tr>
+              <td>${staff.name}</td>
+              <td>${staff.subject.name}</td>
+              <td>${staff.email}</td>
+              <td><a href="${staffMemberURL}">View more</a></td>
+            </tr>
+          </c:forEach>
+        </tbody>
       </table>
     </section>
   </section>

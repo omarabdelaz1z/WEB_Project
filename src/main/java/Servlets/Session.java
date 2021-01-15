@@ -1,10 +1,10 @@
 package Servlets;
 
-import DAO.NotificationDAO;
-import DAO.ReservationDAO;
-import DAO.SubjectDAO;
 import DAO.UserDAO;
-import Entities.*;
+import Entities.Reservation;
+import Entities.StaffMember;
+import Entities.Student;
+import Entities.User;
 import Utils.Recaptcha;
 import com.google.gson.Gson;
 
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/Session")
@@ -62,6 +63,12 @@ public class Session extends HttpServlet {
             else {
                 StaffMember staffMember = userDAO.prepareStaffMember(user);
                 List<Student> students = userDAO.getAllStudents();
+                List<User> reservees = new ArrayList<>();
+
+                for(Reservation reservation: staffMember.getReservations()){
+                    reservees.add(userDAO.getUserByID(reservation.getReserveeID()));
+                }
+
 /*
                 StaffMember staffMember = new StaffMember(user);
                 List<Notification> notificationList =
@@ -78,6 +85,7 @@ public class Session extends HttpServlet {
 */
                 session.setAttribute("currentUser", staffMember);
                 session.setAttribute("students", students);
+                session.setAttribute("Reservees", reservees);
                 responseMessage = this.gson.toJson("STAFF");
             }
             response.getWriter().write(responseMessage);

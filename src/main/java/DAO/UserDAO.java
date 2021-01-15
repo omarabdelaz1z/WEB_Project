@@ -125,4 +125,20 @@ public class UserDAO {
 
         return studentList;
     }
+
+    public void updateUserData(String ID, User user){
+        userCRUD.update(ID, user);
+    }
+
+    public User getUserByID(String ID){
+        return userCRUD.read(ID);
+    }
+
+    public User getUserByEmail(String email) {
+        List<User> resultSet = userCRUD.query("FROM User U WHERE U.email LIKE '%" + email + "%' ");
+        if (resultSet != null)
+            return resultSet.get(0);
+
+        return null;
+    }
 }

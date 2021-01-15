@@ -53,10 +53,48 @@
             }
         }
     }
+
+    (function (document) {
+        'use strict';
+        var TableFilter = (function(Arr){
+            var input;
+
+            function onInputEvent(e) {
+                input = e.target;
+                var tables = document.getElementsByClassName(input.getAttribute('data-table'));
+                Arr.forEach.call(tables, function(table){
+                    Arr.forEach.call(table.tBodies, function (tbody) {
+                        Arr.forEach.call(tbody.rows, filter);
+                    });
+                });
+            }
+
+            function filter(row) {
+                var text = row.textContent.toLowerCase(), val = input.value.toLowerCase();
+                row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+            }
+
+            return{
+                init: function () {
+                    var inputs = document.getElementsByClassName('search');
+                    Arr.forEach.call(inputs, function (input) {
+                        input.oninput = onInputEvent;
+                    });
+                }
+            };
+        })(Array.prototype);
+
+        document.addEventListener('readystatechange', function(){
+            if(document.readyState === 'complete'){
+                TableFilter.init();
+            }
+        });
+    })(document);
   </script>
 
   <%
     StaffMember currentStaff = (StaffMember) session.getAttribute("currentUser");
+    System.out.println(currentStaff);
     List<Student> students = (List<Student>) session.getAttribute("students");
     pageContext.setAttribute("students", students);
   %>
@@ -66,7 +104,8 @@
   <nav>
     <label>Welcome <%= currentStaff.getName()%> </label>
     <a href="#Profile">Profile</a>
-    <a href="#Manage">Manage</a>
+    <a href="../Officehours">Manage</a>
+    <a href="../Reservations">Reservations</a>
     <a href="#Contact">Contact</a>
     <a href="${pageContext.request.contextPath}/Session">Logout</a>
   </nav>
@@ -74,7 +113,7 @@
 
 <main>
   <!--Profile Popup-->
-  <form action="" method="POST" id="Profile" class="popup-overlay">
+  <form action="${pageContext.request.contextPath}/UpdateUserData" method="POST" id="Profile" class="popup-overlay">
     <section class="popup-window">
       <h1>Profile</h1>
       <a class="close-btn" href="../Staffhome">&times;</a>
@@ -124,7 +163,7 @@
   </form>
   
   <!--Contact Popup-->
-  <form action="" method="POST" id="Contact" class="popup-overlay">
+  <form action="${pageContext.request.contextPath}/SendEmail" method="POST" id="Contact" class="popup-overlay">
     <section class="popup-window">
       <h1>Contact</h1>
       <a class="close-btn" href="../Staffhome">&times;</a>
@@ -161,25 +200,29 @@
   <section class="subject-search">
     <section>
       <label>Search</label>
-      <input type="text" id="search" onkeyup="searchByName();" name="name" spellcheck="true" placeholder="Name" />
+      <input type="search" class="search" data-table="table-info" name="name" spellcheck="true" placeholder="Name" />
     </section>
     <section>
-      <table id="studentData">
-        <tr>
-          <th>Name</th>
-          <th colspan="2">Type</th>
-        </tr>
-
-        <c:forEach var="student" items="${students}">
-          <c:url var="View" value="/StudentProfileHandler">
-            <c:param name="studentObject" value="${student}"/>
-          </c:url>
+      <table class="table-info">
+        <thead>
           <tr>
-            <td>${student.name}</td>
-            <td>${student.type}</td>
-            <td><a href="${View}">View more</a></td>
+            <th>Name</th>
+            <th colspan="2">Type</th>
           </tr>
-        </c:forEach>
+        </thead>
+
+        <tbody>
+          <c:forEach var="student" items="${students}">
+            <c:url var="View" value="/StudentProfileHandler">
+              <c:param name="studentObject" value="${student}"/>
+            </c:url>
+            <tr>
+              <td>${student.name}</td>
+              <td>${student.type}</td>
+              <td><a href="${View}">View more</a></td>
+            </tr>
+          </c:forEach>
+        </tbody>
       </table>
     </section>
   </section>

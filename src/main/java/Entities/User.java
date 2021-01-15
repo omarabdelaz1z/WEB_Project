@@ -63,7 +63,7 @@ public class User implements Serializable {
         this.name = user.getName();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.type = user.getPassword();
+        this.type = user.getType();
         return this;
     }
 
@@ -128,6 +128,10 @@ public class User implements Serializable {
     public User setSubjectID(String subjectID) {
         this.subjectID = subjectID;
         return this;
+    }
+
+    public void addNotification(Notification notification){
+        notifications.add(notification);
     }
 
     @Override

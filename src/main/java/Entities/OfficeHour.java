@@ -33,6 +33,17 @@ public class OfficeHour implements Serializable {
     @Column(name = "type", nullable = false)
     private String type;
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    @Column(name = "status", nullable = false)
+    private boolean status;
+
     public OfficeHour() {
 
     }
@@ -44,19 +55,20 @@ public class OfficeHour implements Serializable {
         this.startTime = officeHour.getStartTime();
         this.endTime = officeHour.getEndTime();
         this.location = officeHour.getLocation();
+        this.type = officeHour.getType();
+        this.status = officeHour.isStatus();
         return this;
     }
 
-    public OfficeHour(String ID, String dayOfWeek, String startTime, String endTime, String staffMemberID,
+    public OfficeHour(String dayOfWeek, String startTime, String endTime, String staffMemberID,
             String location, String type) {
-        this.ID = ID;
         this.staffMemberID = staffMemberID;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
-        ;
         this.location = location;
         this.type = type;
+        this.status = false;
     }
 
     public String getID() {

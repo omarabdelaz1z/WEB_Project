@@ -46,8 +46,11 @@
                         <th colspan="2">Location</th>
                     </tr>
                     <c:forEach var="officehour" items="${officehours}">
-                        <c:url var="officeHourURL" value="">
+                        <c:url var="officeHourReserve" value="">
                             <c:param name="officeHourObject" value="${officehour}"/>
+                        </c:url>
+                        <c:url var="officeHourCancel" value="">
+                            <c:param name="officeHourID" value="${officehour.ID}"/>
                         </c:url>
                         <tr>
                             <td>${officehour.dayOfWeek}</td>
@@ -55,7 +58,14 @@
                             <td>${officehour.endTime}</td>
                             <td>${officehour.type}</td>
                             <td>${officehour.location}</td>
-                            <td><a href="${officeHourURL}">reserve</a></td>
+                            <c:choose>
+                                <c:when test="${officehour.status}">
+                                    <td><a href="${officeHourCancel}">Cancel</a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><a href="${officeHourReserve}">Reserve</a></td>
+                                </c:otherwise>
+                            </c:choose>
                         </tr>
                     </c:forEach>
                 </table>
