@@ -40,8 +40,11 @@ $(document).ready(function () {
                 if(data === "SUCCESS"){
                     alert("Registered Successfully");
                     $('#login').show("slow");
-                } else {
+                } else if(data === "FAILED") {
                     alert("You missed the captcha");
+                    $('#login').hide();
+                } else {
+                    alert(data);
                     $('#login').hide();
                 }
             },

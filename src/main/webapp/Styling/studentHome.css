@@ -118,9 +118,7 @@ header nav a {
   letter-spacing: 0.05em;
 }
 
-.popup-window .contact-box input[type="email"],
-.popup-window .contact-box input[type="text"],
-.popup-window .contact-box input[type="password"] {
+.popup-window .contact-box input {
   border: none;
   padding: 5px;
   color: white;

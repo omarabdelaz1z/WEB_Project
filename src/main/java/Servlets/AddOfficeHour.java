@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @WebServlet(name = "AddOfficeHour", value = "/AddOfficeHour")
 public class AddOfficeHour extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         StaffMember staffMember = (StaffMember) session.getAttribute("currentUser");
 
@@ -31,9 +31,5 @@ public class AddOfficeHour extends HttpServlet {
 
         session.setAttribute("currentUser", staffMember);
         response.getWriter().write(new Gson().toJson("Added Successfully"));
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

@@ -1,7 +1,6 @@
 package Servlets;
 
 import DAO.UserDAO;
-import Entities.CRUD.ICRUD;
 import Entities.StaffMember;
 import Entities.Student;
 import Entities.User;
@@ -28,6 +27,7 @@ public class UpdateUserData extends HttpServlet {
 
         new UserDAO().updateUserData(user.getID(), user);
 
+        response.getWriter().write("<script> alert('Updated Successfully') </script>");
         if(user instanceof Student){
             Student student = (Student) user;
             session.setAttribute("currentUser", student);

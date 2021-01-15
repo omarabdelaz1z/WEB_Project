@@ -13,10 +13,6 @@ import java.io.IOException;
 
 @WebServlet(name = "GetOfficeHour", value = "/GetOfficeHour")
 public class GetOfficeHour extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String officeHourID = request.getParameter("officeHourID");
         OfficeHour officeHour = new OfficeHourDAO().getOfficeHour(officeHourID);

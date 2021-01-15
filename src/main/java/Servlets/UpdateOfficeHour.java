@@ -40,10 +40,6 @@ public class UpdateOfficeHour extends HttpServlet {
         response.getWriter().write(new Gson().toJson("Updated Successfully"));
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
     private int getOfficeHourID(List<OfficeHour> officeHours, String ID) {
         for(int i = 0; i < officeHours.size(); i++){
             if(officeHours.get(i).getID().equals(ID)) return i;

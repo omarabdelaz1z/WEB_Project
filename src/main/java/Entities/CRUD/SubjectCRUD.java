@@ -36,7 +36,7 @@ public class SubjectCRUD implements ICRUD<Subject> {
     public List<Subject> read() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Subject> subjects = session.createQuery("from Subject ").getResultList();
+        List<Subject> subjects = session.createQuery("from Subject ", Subject.class).getResultList();
         session.getTransaction().commit();
         return subjects;
     }
@@ -46,7 +46,7 @@ public class SubjectCRUD implements ICRUD<Subject> {
         object.setID(ID);
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Subject subject = session.get(Subject.class, Integer.parseInt(ID));
+        Subject subject = session.get(Subject.class, ID);
         subject.update(object);
         session.getTransaction().commit();
         return subject;

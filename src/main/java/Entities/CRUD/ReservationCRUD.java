@@ -37,7 +37,7 @@ public class ReservationCRUD implements ICRUD<Reservation> {
     public List<Reservation> read() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Reservation> reservations = session.createQuery("from Reservation ").getResultList();
+        List<Reservation> reservations = session.createQuery("from Reservation ", Reservation.class).getResultList();
         session.getTransaction().commit();
         return reservations;
     }
@@ -50,7 +50,7 @@ public class ReservationCRUD implements ICRUD<Reservation> {
     @Override
     public void delete(String ID) {
         Session session = sessionFactory.getCurrentSession();
-        Reservation reservation = session.get(Reservation.class, Integer.parseInt(ID));
+        Reservation reservation = session.get(Reservation.class, ID);
         session.delete(reservation);
         session.getTransaction().commit();
     }

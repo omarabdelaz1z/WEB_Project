@@ -25,7 +25,7 @@ public class SignUp extends HttpServlet {
     private final MailManager mailManager = new MailManager();
     private Gson gson = new Gson();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
 
         String email = request.getParameter("email");
@@ -36,50 +36,46 @@ public class SignUp extends HttpServlet {
         String gRecaptchaResponse = request
                 .getParameter("g-recaptcha-response");
 
-        // TODO: to be added.
-//        if(new UserDAO().checkIfEmailAlreadyExists(email)){
-//            return;
-//        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
+        if(!new UserDAO().checkIfEmailAlreadyExists(email)){
+            String generatedPassword = TextGeneration.generatePassword(8);
 
-        String generatedPassword = TextGeneration.generatePassword(8);
+            String content = "Dear "
+                    +  name
+                    + ", \nWelcome to our website, Here is your password: "
+                    + generatedPassword
+                    + "  Use it to proceed.\n\nStudent Management";
 
-        String content = "Hey "
-                +  name
-                + ", \nWelcome to our website, Here is your password: "
-                + generatedPassword
-                + "  Use it to proceed.\n\nStudent Management";
+            System.out.println(generatedPassword);
 
-        System.out.println(generatedPassword);
+            if(isVerified) {
+                mailManager.sendEmail(email, "Verify Mail", content);
+                if (type.equals("student")) {
+                    UserDAO userDAO = new UserDAO();
+                    User user = userDAO.create(new User(name, email, generatedPassword,"Student", null));
+                    Student student = new Student(user);
+                    session.setAttribute("currentUser", student);
 
-        if(isVerified) {
-            mailManager.sendEmail(email, "Verify Mail", content);
-            if (type.equals("student")) {
-                UserDAO userDAO = new UserDAO();
-                User user = userDAO.create(new User(name, email, generatedPassword,"Student", ""));
-                Student student = new Student(user);
-                session.setAttribute("currentUser", student);
+                } else if (type.equals("staffMember")) {
+                    UserDAO userDAO = new UserDAO();
+                    String subjectID = new SubjectDAO().getSubjectByName(subject).getID();
+                    User user = userDAO.create(new User(name, email, generatedPassword,"STAFF", subjectID));
+                    StaffMember staffMember = new StaffMember(user);
+                    session.setAttribute("currentUser", staffMember);
+                }
 
-            } else if (type.equals("staffMember")) {
-                UserDAO userDAO = new UserDAO();
-                String subjectID = new SubjectDAO().getSubjectByName(subject).getID();
-                User user = userDAO.create(new User(name, email, generatedPassword,"STAFF", subjectID));
-                StaffMember staffMember = new StaffMember(user);
-                session.setAttribute("currentUser", staffMember);
+                String responseMessage = this.gson.toJson("SUCCESS");
+                response.getWriter().write(responseMessage);
             }
-
-            String responseMessage = this.gson.toJson("SUCCESS");
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(responseMessage);
+            else{
+                String responseMessage = this.gson.toJson("FAILED");
+                response.getWriter().write(responseMessage);
+            }
+        } else {
+            response.getWriter().write(new Gson().toJson("Email Already Exists"));
         }
-        else{
-            String responseMessage = this.gson.toJson("FAILED");
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(responseMessage);
-        }
-
     }
 }

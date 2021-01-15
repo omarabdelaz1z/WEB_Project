@@ -76,7 +76,7 @@ public class UserDAO {
     }
 
     public boolean checkIfEmailAlreadyExists(String email) {
-        return userCRUD.query("SELECT U FROM User U WHERE U.email = '" + email + "' ") != null;
+        return userCRUD.query("SELECT U FROM User U WHERE U.email = '" + email + "' ") == null;
     }
 
     public Student prepareStudent(User user){
@@ -102,13 +102,18 @@ public class UserDAO {
         List<OfficeHour> officeHours = new OfficeHourDAO()
                 .getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID WHERE O.staffMemberID = '" + staffMember.getID() + "'");
 
-        Subject subject =
-                new SubjectDAO().getSubject("SELECT S FROM Subject S INNER JOIN User U ON S.ID = '" +
-                        user.getSubjectID() + "' WHERE U.ID = '"+ user.getID()+"'").get(0);
+        List<Subject> subjects =
+                new SubjectDAO().getSubject("SELECT S FROM Subject S INNER JOIN User U ON S.ID = U.subjectID WHERE U.ID = '" + staffMember.getID() + "'");
 
+        System.out.println(subjects);
         staffMember.setNotifications(notificationList);
         staffMember.setReservations(reservations);
-        staffMember.setSubject(subject);
+
+        try {
+            staffMember.setSubject(subjects.get(0));
+        }catch(Exception e){
+            System.out.println("No Associated Subject");
+        }
         staffMember.setOfficeHour(officeHours);
 
         return staffMember;

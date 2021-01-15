@@ -106,6 +106,7 @@
     <a href="#Profile">Profile</a>
     <a href="../Officehours">Manage</a>
     <a href="../Reservations">Reservations</a>
+    <a href="#MessageSubjectTeam">ContactTeam</a>
     <a href="#Contact">Contact</a>
     <a href="${pageContext.request.contextPath}/Session">Logout</a>
   </nav>
@@ -177,6 +178,45 @@
                   placeholder="example@outlook.com"
                   required
           />
+        </section>
+
+        <section class="contact-box">
+          <label>Subject</label>
+          <input type="text" name="subject" placeholder="Subject" required />
+        </section>
+
+        <section class="contact-box">
+          <label>Content</label>
+          <textarea name="message" wrap="hard" placeholder="Enter your message" rows="5" required></textarea>
+        </section>
+
+        <section class="submit-btn">
+          <input type="submit" name="send" value="Send"/>
+        </section>
+      </div>
+    </section>
+  </form>
+
+  <!--MessageSubjectTeam Popup-->
+  <form action="${pageContext.request.contextPath}/NotifyStaff" method="POST" id="MessageSubjectTeam" class="popup-overlay">
+    <section class="popup-window">
+      <h1>Contact Subject Team</h1>
+      <a class="close-btn" href="../Staffhome">&times;</a>
+      <div>
+        <section class="contact-box">
+          <label>Subject Name</label>
+          <input
+                  list="Subjects"
+                  name="subjectName"
+                  placeholder="Subject Name"
+                  required
+          />
+          <datalist id="Subjects">
+            <option value="Database"></option>
+            <option value="Computer Science"></option>
+            <option value="Web Development"></option>
+            <option value="Software Engineering"></option>
+          </datalist>
         </section>
 
         <section class="contact-box">

@@ -5,7 +5,6 @@ import Entities.OfficeHour;
 import Entities.StaffMember;
 import com.google.gson.Gson;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @WebServlet(name = "DeleteOfficeHour", value = "/DeleteOfficeHour")
 public class DeleteOfficeHour extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         StaffMember staffMember = (StaffMember) session.getAttribute("currentUser");
 
@@ -32,9 +31,6 @@ public class DeleteOfficeHour extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
     private int getOfficeHourID(List<OfficeHour> officeHours, String ID) {
         for(int i = 0; i < officeHours.size(); i++){
             if(officeHours.get(i).getID().equals(ID)) return i;

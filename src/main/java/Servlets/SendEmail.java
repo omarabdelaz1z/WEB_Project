@@ -37,6 +37,7 @@ public class SendEmail extends HttpServlet {
         Notification notification = new NotificationDAO().createNotification(new Notification(senderID, receiverID, subject, content, currentDate));
         user.addNotification(notification);
 
+        response.getWriter().write("<script> alert('Sent Successfully') </script>");
         if(user instanceof Student){
             Student student = (Student) user;
             System.out.println(student);
