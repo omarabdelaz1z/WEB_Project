@@ -40,7 +40,7 @@ public class SignUp extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         boolean isVerified = Recaptcha.verify(gRecaptchaResponse);
-        if(!new UserDAO().checkIfEmailAlreadyExists(email)){
+        if(new UserDAO().checkIfEmailAlreadyExists(email)){
             String generatedPassword = TextGeneration.generatePassword(8);
 
             String content = "Dear "

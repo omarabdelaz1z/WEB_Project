@@ -1,10 +1,10 @@
 package Servlets;
 
+import DAO.NotificationDAO;
+import DAO.ReservationDAO;
 import DAO.UserDAO;
-import Entities.Reservation;
-import Entities.StaffMember;
-import Entities.Student;
-import Entities.User;
+import Entities.*;
+import Utils.MailManager;
 import Utils.Recaptcha;
 import com.google.gson.Gson;
 
@@ -14,12 +14,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet("/Session")
 public class Session extends HttpServlet {
     private Gson gson = new Gson();
+
+    private List<Notification> notifyOnDayMeeting(User user) {
+        MailManager mailManager = new MailManager();
+
+        List<Reservation> reservationsList =
+                new ReservationDAO().getReservations("SELECT R FROM Reservation R WHERE R.reserveeID = '" + user.getID() +"'");
+
+        List<Notification> notificationsSent = new ArrayList<>();
+
+        for(Reservation reservation: reservationsList)
+        {
+            String meetingDate = reservation.getFromDate().split(" ")[0];
+            String time = reservation.getFromDate().split(" ")[1];
+
+            if(meetingDate.equalsIgnoreCase(LocalDate.now().toString())) {
+                String toEmail = user.getEmail();
+                String userName = user.getName();
+                String subject = "Meeting is Today!";
+                String content = "Dear " + userName + ",\nYou have meeting today that will start at: " + time;
+                mailManager.sendEmail(toEmail,subject, content);
+
+                String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                Notification notification = new NotificationDAO().createNotification(new Notification(user.getID(),user.getID(), subject, content, currentDate));
+                notificationsSent.add(notification);
+            }
+        }
+        return notificationsSent;
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -40,13 +71,20 @@ public class Session extends HttpServlet {
 
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validate(email, password);
+        List<Notification> notifications = null;
         String responseMessage;
 
         if ((isVerified) && (user != null)) {
             if (user.getType().equalsIgnoreCase("STUDENT")) {
                 Student student = userDAO.prepareStudent(user);
                 List<StaffMember> staffMembersList = userDAO.getAllStaffMembers();
+                notifications = notifyOnDayMeeting(student);
 
+                if(!notifications.isEmpty()){
+                    for(Notification notification: notifications){
+                        student.addNotification(notification);
+                    }
+                }
                 session.setAttribute("staffMembers", staffMembersList);
                 session.setAttribute("currentUser", student);
                 responseMessage = this.gson.toJson("STUDENT");
@@ -59,6 +97,13 @@ public class Session extends HttpServlet {
 
                 for(Reservation reservation: staffMember.getReservations()){
                     reservees.add(userDAO.getUserByID(reservation.getReserveeID()));
+                }
+                notifications = notifyOnDayMeeting(staffMember);
+
+                if(!notifications.isEmpty()){
+                    for(Notification notification: notifications){
+                        staffMember.addNotification(notification);
+                    }
                 }
                 session.setAttribute("currentUser", staffMember);
                 session.setAttribute("students", students);

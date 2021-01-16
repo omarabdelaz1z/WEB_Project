@@ -27,6 +27,7 @@
   <nav>
     <label>Welcome <%= currentStudent.getName()%> </label>
     <a href="#Profile">Profile</a>
+    <a href="../NotifyStudent">Notify</a>
     <a href="#Contact">Contact</a>
     <a href="${pageContext.request.contextPath}/Session">Logout</a>
   </nav>

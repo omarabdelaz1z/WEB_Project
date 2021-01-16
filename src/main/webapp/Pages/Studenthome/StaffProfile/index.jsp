@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="Entities.StaffMember" %>
+<%@ page import="Entities.Student" %>
+<%@ page import="java.util.List" %>
+<%@ page import="Entities.Reservation" %>
+<%@ page import="java.util.stream.Collectors" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,7 +15,10 @@
     />
 </head>
     <%
+        Student student = (Student) session.getAttribute("currentUser");
         StaffMember emp = (StaffMember) session.getAttribute("emp");
+        pageContext.setAttribute("currentUser", student);
+        pageContext.setAttribute("reservations", student.getReservations());
         pageContext.setAttribute("officehours", emp.getOfficeHour());
     %>
 <body>
@@ -45,13 +52,15 @@
                         <th>Type</th>
                         <th colspan="2">Location</th>
                     </tr>
-                    <c:forEach var="officehour" items="${officehours}">
-                        <c:url var="officeHourReserve" value="">
+                    <c:forEach var="officehour" items="${officehours}" varStatus="index">
+                        <c:url var="officeHourReserve" value="/ReserveAppointment">
                             <c:param name="officeHourObject" value="${officehour}"/>
                         </c:url>
-                        <c:url var="officeHourCancel" value="">
-                            <c:param name="officeHourID" value="${officehour.ID}"/>
-                        </c:url>
+                        <c:if test="${!(reservations.size() == 0)}">
+                            <c:url var="officeHourCancel" value="/CancelReservation">
+                                <c:param name="reservationID" value="${reservations.get(index.index).ID}"/>
+                            </c:url>
+                        </c:if>
                         <tr>
                             <td>${officehour.dayOfWeek}</td>
                             <td>${officehour.startTime}</td>
@@ -59,7 +68,10 @@
                             <td>${officehour.type}</td>
                             <td>${officehour.location}</td>
                             <c:choose>
-                                <c:when test="${officehour.status}">
+                                <c:when test="${reservations.get(index.index).status && reservations.get(index.index).reserveeID != currentUser.ID}">
+                                    <td>Booked</td>
+                                </c:when>
+                                <c:when test="${reservations.get(index.index).status && reservations.get(index.index).reserveeID == currentUser.ID}">
                                     <td><a href="${officeHourCancel}">Cancel</a></td>
                                 </c:when>
                                 <c:otherwise>

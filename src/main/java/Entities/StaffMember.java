@@ -60,6 +60,14 @@ public class StaffMember extends User  implements Serializable {
         officeHours.remove(index);
     }
 
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
+    public void removeReservation(int index){
+        reservations.remove(index);
+    }
+
     @Override
     public String toString() {
         return new Gson().toJson(this);

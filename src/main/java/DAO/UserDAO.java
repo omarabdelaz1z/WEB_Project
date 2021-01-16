@@ -76,7 +76,7 @@ public class UserDAO {
     }
 
     public boolean checkIfEmailAlreadyExists(String email) {
-        return userCRUD.query("SELECT U FROM User U WHERE U.email = '" + email + "' ") == null;
+        return userCRUD.query("SELECT U FROM User U WHERE U.email = '" + email + "' ").isEmpty();
     }
 
     public Student prepareStudent(User user){

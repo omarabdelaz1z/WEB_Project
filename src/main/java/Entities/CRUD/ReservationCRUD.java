@@ -44,7 +44,13 @@ public class ReservationCRUD implements ICRUD<Reservation> {
 
     @Override
     public Reservation update(String ID, Reservation object) {
-        return null;
+        object.setID(ID);
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Reservation reservation = session.get(Reservation.class, ID);
+        reservation.setStatus(false);
+        session.getTransaction().commit();
+        return reservation;
     }
 
     @Override

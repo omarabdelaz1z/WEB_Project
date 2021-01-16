@@ -5,6 +5,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+  <link rel="stylesheet" href="../../Styling/studentHome.css" />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap"
+          rel="stylesheet"
+  />
   <title>Reservations</title>
   <%
     StaffMember staffMember = (StaffMember) session.getAttribute("currentUser");
@@ -72,13 +77,16 @@
         </thead>
         <tbody>
         <c:forEach var="reservation" items="${reservations}" varStatus="index">
-          <c:url var="Cancel" value="/CancelReservation">
+          <c:url var="Cancel" value="/">
             <c:param name="reservationID" value="${reservation.ID}"/>
+            <c:param name="reserveeID" value="${reservation.reserveeID}"/>
+            <c:param name="studentName" value="${reservees.get(index.index).name}"/>
+            <c:param name="studentEmail" value="${reservees.get(index.index).email}"/>
           </c:url>
           <tr>
             <td>${reservation.ID}</td>
-            <td>${reservees.get(index).name}</td>
-            <td>${reservees.get(index).email}</td>
+            <td>${reservees.get(index.index).name}</td>
+            <td>${reservees.get(index.index).email}</td>
             <td>${reservation.fromDate}</td>
             <td>${reservation.toDate}</td>
             <td><a href="${Cancel}">Cancel</a></td>

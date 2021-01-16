@@ -29,6 +29,7 @@
     <a href="#Profile">Profile</a>
     <a href="../Officehours">Manage</a>
     <a href="../Reservations">Reservations</a>
+    <a href="../NotifyStaff">Notify</a>
     <a href="#MessageSubjectTeam">ContactTeam</a>
     <a href="#Contact">Contact</a>
     <a href="${pageContext.request.contextPath}/Session">Logout</a>

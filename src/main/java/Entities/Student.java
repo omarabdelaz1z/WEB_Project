@@ -25,8 +25,16 @@ public class Student extends User implements Serializable {
         this.reservations = reservationsList;
     }
 
-    public List<Reservation> getReservations(String ID) {
+    public List<Reservation> getReservations() {
         return reservations;
+    }
+
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
+    public void removeReservation(int index){
+        reservations.remove(index);
     }
 
     @Override

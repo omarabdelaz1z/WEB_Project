@@ -33,12 +33,12 @@ public class Reservation implements Serializable {
 
     }
 
-    public Reservation(String ID, String reserveeID, String staffID, String fromDate, String toDate){
-        this.ID = ID;
+    public Reservation(String reserveeID, String staffID, String fromDate, String toDate){
         this.reserveeID = reserveeID;
         this.staffID = staffID;
         this.fromDate = fromDate;
         this.toDate = toDate;
+        this.status = true;
     }
 
     public String getID() {
