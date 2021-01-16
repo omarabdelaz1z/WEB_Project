@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,6 +26,18 @@ public class Notification {
 
     @Column(name = "sentDate", nullable=false)
     private String sentDate;
+
+    public Notification(String senderID, String receiverID, String subject, String content, String sentDate){
+        this.senderID = senderID;
+        this.receiverID = receiverID;
+        this.subject = subject;
+        this.content = content;
+        this.sentDate = sentDate;
+    }
+
+    public Notification(){
+
+    }
 
     public String getID() {
         return ID;
@@ -81,13 +95,6 @@ public class Notification {
 
     @Override
     public String toString() {
-        return "Notification{" +
-                "ID='" + ID + '\'' +
-                ", senderID='" + senderID + '\'' +
-                ", receiverID='" + receiverID + '\'' +
-                ", subject='" + subject + '\'' +
-                ", content='" + content + '\'' +
-                ", sentDate='" + sentDate + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }

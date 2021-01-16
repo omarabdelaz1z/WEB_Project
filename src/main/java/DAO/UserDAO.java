@@ -63,7 +63,6 @@ public class UserDAO {
             Subject subject =
                     new SubjectDAO().getSubject("SELECT S FROM Subject S INNER JOIN User U ON S.ID = '" + user.getSubjectID() + "' WHERE U.ID = '"+ user.getID()+"'").get(0);
 
-
             List<OfficeHour> officeHours = new OfficeHourDAO()
                     .getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID WHERE O.staffMemberID = '" + user.getID() + "'");
 
@@ -76,12 +75,21 @@ public class UserDAO {
         return staffMembersList;
     }
 
+    public List<Student> getAllStudents(){
+        List<User> resultSet = userCRUD.query("SELECT U FROM User U WHERE U.type = 'STUDENT'");
+        List<Student> studentList = new ArrayList<>();
+
+        for(User user: resultSet) {
+            Student student = new Student(user);
+            studentList.add(student);
+        }
+
+        return studentList;
+    }
+
     public boolean checkIfEmailAlreadyExists(String email) {
         return userCRUD.query("SELECT U FROM User U WHERE U.email = '" + email + "' ") != null;
     }
-
-    // TODO: Prepare Staff Member Object
-    // TODO: Prepare Student Object
 
     public Student prepareStudent(User user){
         Student student = new Student(user);
@@ -106,14 +114,37 @@ public class UserDAO {
         List<OfficeHour> officeHours = new OfficeHourDAO()
                 .getOfficeHours("SELECT O FROM User U INNER JOIN OfficeHour O ON O.staffMemberID = U.ID WHERE O.staffMemberID = '" + staffMember.getID() + "'");
 
-        Subject subject =
-                new SubjectDAO().getSubject("SELECT S FROM Subject S INNER JOIN User U ON S.ID = '" + staffMember.getSubjectID() + "' WHERE U.ID = '"+ staffMember.getID()+"'").get(0);
+        List<Subject> subjects =
+                new SubjectDAO().getSubject("SELECT S FROM Subject S INNER JOIN User U ON S.ID = U.subjectID WHERE U.ID = '" + staffMember.getID() + "'");
 
+        System.out.println(subjects);
         staffMember.setNotifications(notificationList);
         staffMember.setReservations(reservations);
-        staffMember.setSubject(subject);
+
+        try {
+            staffMember.setSubject(subjects.get(0));
+        }catch(Exception e){
+            System.out.println("No Associated Subject");
+        }
+
         staffMember.setOfficeHour(officeHours);
 
         return staffMember;
+    }
+
+    public User getUserByEmail(String email) {
+        List<User> resultSet = userCRUD.query("FROM User U WHERE U.email LIKE '%" + email + "%' ");
+        if (resultSet != null)
+            return resultSet.get(0);
+
+        return null;
+    }
+
+    public User getUserByID(String ID){
+        return userCRUD.read(ID);
+    }
+
+    public void updateUserData(String ID, User user){
+        userCRUD.update(ID, user);
     }
 }

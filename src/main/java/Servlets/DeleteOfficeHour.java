@@ -12,32 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-@WebServlet(name = "OfficeHourController", value = "/OfficeHourController")
-public class OfficeHourController extends HttpServlet {
+@WebServlet(name = "DeleteOfficeHour", value = "/DeleteOfficeHour")
+public class DeleteOfficeHour extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         StaffMember staffMember = (StaffMember) session.getAttribute("currentUser");
-        Map<String, String[]> queryParameters = request.getParameterMap();
 
         String officeHourID = request.getParameter("officeHourID");
-        List<OfficeHour> officeHours = staffMember.getOfficeHour();
+        new OfficeHourDAO().deleteOffice(officeHourID);
 
-        OfficeHour officeHour = officeHours.get(getOfficeHourID(officeHours, officeHourID));
+        int index = getOfficeHourID(staffMember.getOfficeHour(), officeHourID);
+        staffMember.deleteOfficeHour(index);
 
-        OfficeHour officeHour1 =  new OfficeHourDAO().updateOfficeHour(officeHourID, officeHour);
-
-        officeHours.remove(officeHour);
-        officeHours.add(officeHour1);
-
-        staffMember.setOfficeHour(officeHours);
-
-        session.setAttribute("currentUser", staffMember);
+        session.setAttribute("staffMember", staffMember);
+        response.sendRedirect("");
     }
 
     private int getOfficeHourID(List<OfficeHour> officeHours, String ID) {
@@ -45,5 +34,9 @@ public class OfficeHourController extends HttpServlet {
             if(officeHours.get(i).getID().equals(ID)) return i;
         }
         return -1;
+    }
+
+    public static void main(String[] args) {
+        new OfficeHourDAO().deleteOffice("3");
     }
 }

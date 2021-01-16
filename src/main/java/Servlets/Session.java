@@ -2,13 +2,11 @@ package Servlets;
 
 import DAO.NotificationDAO;
 import DAO.ReservationDAO;
-import DAO.SubjectDAO;
 import DAO.UserDAO;
 import Entities.*;
+import Utils.MailManager;
 import Utils.Recaptcha;
 import com.google.gson.Gson;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet("/Session")
@@ -43,41 +45,45 @@ public class Session extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         User user = userDAO.validate(email, password);
 
+        List<Notification> notifications;
+
         if ((isVerified) && (user != null)) {
             if (user.getType().equals("STUDENT")) {
                 Student student = userDAO.prepareStudent(user);
-                //Student student = new Student(user);
-                //List<Notification> notificationList = new NotificationDAO().getNotifications("SELECT N From Notification N INNER JOIN User O ON O.ID = N.receiverID WHERE O.ID = '" + student.getID()+"'");
-               // List<Reservation> reservations = new ReservationDAO().getReservations("SELECT R FROM Reservation R INNER JOIN User O ON O.ID = R.reserveeID WHERE O.ID = '" + student.getID()+"'");
                 List<StaffMember> staffMembersList = userDAO.getAllStaffMembers();
 
-                // student.setNotifications(notificationList);
+                notifications = notifyOnDayMeeting(student);
 
-                // student.setReservations(reservations);
-
+                if(!notifications.isEmpty()){
+                    for(Notification notification: notifications){
+                        student.addNotification(notification);
+                    }
+                }
                 session.setAttribute("staffMembers", staffMembersList);
                 session.setAttribute("currentUser", student);
             }
 
             else {
                 StaffMember staffMember = userDAO.prepareStaffMember(user);
-/*
-                StaffMember staffMember = new StaffMember(user);
-                List<Notification> notificationList =
-                        new NotificationDAO().getNotifications("SELECT N From Notification N INNER JOIN User O ON O.ID = N.receiverID WHERE O.ID = '" + staffMember.getID() + "'");
+                List<User> students = new ArrayList<>();
 
-                List<Reservation> reservations =
-                        new ReservationDAO().getReservations("SELECT R FROM Reservation R INNER JOIN User O ON O.ID = R.staffID WHERE O.ID = '" + staffMember.getID() + "'");
+                for(Reservation reservation: staffMember.getReservations()){
+                    students.add(userDAO.getUserByID(reservation.getReserveeID()));
+                }
 
-                Subject subject = new SubjectDAO().getSubjectByID(staffMember.getSubjectID());
+                notifications = notifyOnDayMeeting(staffMember);
 
-                staffMember.setNotifications(notificationList);
-                staffMember.setReservations(reservations);
-                staffMember.setSubject(subject);
-*/
+                if(!notifications.isEmpty()){
+                    for(Notification notification: notifications){
+                        staffMember.addNotification(notification);
+                    }
+                }
+
                 session.setAttribute("currentUser", staffMember);
+                session.setAttribute("Reservees", students);
             }
             String responseMessage = this.gson.toJson("SUCCESS");
+
             response.getWriter().write(responseMessage);
         }
 
@@ -96,5 +102,34 @@ public class Session extends HttpServlet {
         HttpSession currentSession = request.getSession();
         currentSession.invalidate();
         response.sendRedirect("login.html");
+    }
+
+
+    private List<Notification> notifyOnDayMeeting(User user) {
+        MailManager mailManager = new MailManager();
+
+        List<Reservation> reservationsList =
+                new ReservationDAO().getReservations("SELECT R FROM Reservation R WHERE R.reserveeID = '" + user.getID() +"'");
+
+        List<Notification> notificationsSent = new ArrayList<>();
+
+        for(Reservation reservation: reservationsList)
+        {
+            String meetingDate = reservation.getFromDate().split(" ")[0];
+            String time = reservation.getFromDate().split(" ")[1];
+
+            if(meetingDate.equalsIgnoreCase(LocalDate.now().toString())) {
+                String toEmail = user.getEmail();
+                String userName = user.getName();
+                String subject = "Meeting is Today!";
+                String content = "Dear " + userName + ", You have meeting today that will start at: " + time;
+                mailManager.sendEmail(toEmail,subject, content);
+
+                String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                Notification notification = new NotificationDAO().createNotification(new Notification(user.getID(),user.getID(), subject, content, currentDate));
+                notificationsSent.add(notification);
+            }
+        }
+        return notificationsSent;
     }
 }

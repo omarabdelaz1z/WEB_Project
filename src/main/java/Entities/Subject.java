@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 
 @Entity
@@ -41,9 +43,6 @@ public class Subject {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "ID='" + ID + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }

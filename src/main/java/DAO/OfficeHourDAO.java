@@ -22,4 +22,16 @@ public class OfficeHourDAO {
     public OfficeHour updateOfficeHour(String ID, OfficeHour officeHour){
         return officeHourCRUD.update(ID, officeHour);
     }
+
+    public OfficeHour addOfficeHour(OfficeHour officeHour){
+        return officeHourCRUD.create(officeHour);
+    }
+
+    public void deleteOffice(String ID){
+        officeHourCRUD.delete(ID);
+    }
+
+    public OfficeHour getOfficeHour(String ID){
+        return officeHourCRUD.read(ID);
+    }
 }

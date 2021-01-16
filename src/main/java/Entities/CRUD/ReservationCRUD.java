@@ -50,7 +50,8 @@ public class ReservationCRUD implements ICRUD<Reservation> {
     @Override
     public void delete(String ID) {
         Session session = sessionFactory.getCurrentSession();
-        Reservation reservation = session.get(Reservation.class, Integer.parseInt(ID));
+        session.beginTransaction();
+        Reservation reservation = session.get(Reservation.class, ID);
         session.delete(reservation);
         session.getTransaction().commit();
     }

@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,15 +117,11 @@ public class User {
         return this;
     }
 
+    public void addNotification(Notification notification){
+        notifications.add(notification);
+    }
     @Override
     public String toString() {
-        return "User{" +
-                "ID='" + ID + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", type='" + type + '\'' +
-                ", notifications=" + notifications +
-                '}';
+        return new Gson().toJson(this);
     }
 }

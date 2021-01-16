@@ -4,6 +4,7 @@ import Database.HibernateUtil;
 import Entities.CRUD.ICRUD;
 import Entities.CRUD.SubjectCRUD;
 import Entities.Subject;
+import Entities.User;
 
 import java.util.List;
 

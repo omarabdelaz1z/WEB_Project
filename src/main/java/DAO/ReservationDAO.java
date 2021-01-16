@@ -23,9 +23,13 @@ public class ReservationDAO {
 
     public List<Reservation> getReservations(String query) {
         try {
-            return reservationCRUD.query(query);
+             return reservationCRUD.query(query);
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+
+    public Reservation cancelReservation(String ID, Reservation reservation){
+        return reservationCRUD.update(ID, reservation);
     }
 }

@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -30,12 +32,12 @@ public class Reservation {
 
     }
 
-    public Reservation(String ID, String reserveeID, String staffID, String fromDate, String toDate){
-        this.ID = ID;
+    public Reservation(String reserveeID, String staffID, String fromDate, String toDate){
         this.reserveeID = reserveeID;
         this.staffID = staffID;
         this.fromDate = fromDate;
         this.toDate = toDate;
+        this.status = true;
     }
 
     public String getID() {
@@ -92,11 +94,6 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" +
-                "ID='" + ID + '\'' +
-                ", fromDate=" + fromDate +
-                ", toDate=" + toDate +
-                ", status=" + status +
-                '}';
+        return new Gson().toJson(this);
     }
 }

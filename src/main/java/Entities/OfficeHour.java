@@ -1,5 +1,7 @@
 package Entities;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 
 @Entity
@@ -28,6 +30,9 @@ public class OfficeHour {
     @Column(name = "type", nullable = false)
     private String type;
 
+    @Column(name = "status", nullable = false)
+    private boolean status;
+
     public OfficeHour() {
 
     }
@@ -39,19 +44,20 @@ public class OfficeHour {
         this.startTime = officeHour.getStartTime();
         this.endTime = officeHour.getEndTime();
         this.location = officeHour.getLocation();
+        this.type = officeHour.getType();
+        this.status = officeHour.isStatus();
         return this;
     }
 
-    public OfficeHour(String ID, String dayOfWeek, String startTime, String endTime, String staffMemberID,
+    public OfficeHour(String dayOfWeek, String startTime, String endTime, String staffMemberID,
             String location, String type) {
-        this.ID = ID;
         this.staffMemberID = staffMemberID;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
-        ;
         this.location = location;
         this.type = type;
+        this.status = false;
     }
 
     public String getID() {
@@ -61,6 +67,14 @@ public class OfficeHour {
     public OfficeHour setID(String ID) {
         this.ID = ID;
         return this;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getDayOfWeek() {
@@ -115,8 +129,6 @@ public class OfficeHour {
 
     @Override
     public String toString() {
-        return "OfficeHour{" + "ID='" + ID + '\'' + ", staffMemberID='" + staffMemberID + '\'' + ", dayOfWeek='"
-                + dayOfWeek + '\'' + ", startTime='" + startTime + '\'' + ", endTime='" + endTime + '\''
-                + ", location='" + location + '\'' + '}';
+        return new Gson().toJson(this);
     }
 }

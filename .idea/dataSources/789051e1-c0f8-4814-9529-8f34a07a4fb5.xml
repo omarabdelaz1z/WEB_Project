@@ -1151,142 +1151,147 @@
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="359" parent="337" name="officehours_staffmembers_ID_fk">
+    <column id="359" parent="337" name="status">
+      <Position>8</Position>
+      <DataType>tinyint(4)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="360" parent="337" name="officehours_staffmembers_ID_fk">
       <ColNames>staffMemberID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="360" parent="337" name="PRIMARY">
+    <key id="361" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="361" parent="337" name="officehours_staffmembers_ID_fk">
+    <foreign-key id="362" parent="337" name="officehours_staffmembers_ID_fk">
       <ColNames>staffMemberID</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="362" parent="338" name="ID">
+    <column id="363" parent="338" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="363" parent="338" name="reserveeID">
+    <column id="364" parent="338" name="reserveeID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="364" parent="338" name="staffID">
+    <column id="365" parent="338" name="staffID">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="365" parent="338" name="fromDate">
+    <column id="366" parent="338" name="fromDate">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="366" parent="338" name="toDate">
+    <column id="367" parent="338" name="toDate">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="367" parent="338" name="status">
+    <column id="368" parent="338" name="status">
       <Position>6</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="368" parent="338" name="reserveeID">
+    <index id="369" parent="338" name="reserveeID">
       <ColNames>reserveeID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="369" parent="338" name="staffID">
+    <index id="370" parent="338" name="staffID">
       <ColNames>staffID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="370" parent="338" name="PRIMARY">
+    <key id="371" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="371" parent="338" name="reservations_ibfk_1">
+    <foreign-key id="372" parent="338" name="reservations_ibfk_1">
       <ColNames>reserveeID</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="372" parent="338" name="reservations_ibfk_2">
+    <foreign-key id="373" parent="338" name="reservations_ibfk_2">
       <ColNames>staffID</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="373" parent="339" name="subjectName">
+    <column id="374" parent="339" name="subjectName">
       <Position>1</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="374" parent="339" name="subjectID">
+    <column id="375" parent="339" name="subjectID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="375" parent="339" name="subjectID">
+    <index id="376" parent="339" name="subjectID">
       <ColNames>subjectID</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="376" parent="339" name="subjectID">
+    <key id="377" parent="339" name="subjectID">
       <ColNames>subjectID</ColNames>
       <UnderlyingIndexName>subjectID</UnderlyingIndexName>
     </key>
-    <column id="377" parent="340" name="ID">
+    <column id="378" parent="340" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="378" parent="340" name="name">
+    <column id="379" parent="340" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="379" parent="340" name="email">
+    <column id="380" parent="340" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="380" parent="340" name="type">
+    <column id="381" parent="340" name="type">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="381" parent="340" name="password">
+    <column id="382" parent="340" name="password">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="382" parent="340" name="subjectID">
+    <column id="383" parent="340" name="subjectID">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <index id="383" parent="340" name="users_email_uindex">
+    <index id="384" parent="340" name="users_email_uindex">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="384" parent="340" name="subjectID">
+    <index id="385" parent="340" name="subjectID">
       <ColNames>subjectID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="385" parent="340" name="PRIMARY">
+    <key id="386" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="386" parent="340" name="users_email_uindex">
+    <key id="387" parent="340" name="users_email_uindex">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>users_email_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="387" parent="340" name="users_ibfk_1">
+    <foreign-key id="388" parent="340" name="users_ibfk_1">
       <ColNames>subjectID</ColNames>
       <RefTableName>subjects</RefTableName>
       <RefColNames>subjectID</RefColNames>

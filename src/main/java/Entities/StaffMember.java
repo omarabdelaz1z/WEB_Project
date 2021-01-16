@@ -1,5 +1,6 @@
 package Entities;
 
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,16 +46,24 @@ public class StaffMember extends User {
         return reservations;
     }
 
+    public void addOfficeHour(OfficeHour officeHour){
+        officeHours.add(officeHour);
+    }
+
+    public void deleteOfficeHour(int index){
+        officeHours.remove(index);
+    }
+
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
+    public void removeReservation(int index){
+        reservations.remove(index);
+    }
+
     @Override
     public String toString() {
-        return "StaffMember{" +
-                "ID='" + getID() + '\'' +
-                ", name='" + getName() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", type='" + getType() + '\'' +
-                ", notifications=" + getNotifications() + '\'' +
-                "subject=" + subject +
-                ", officeHour=" + officeHours +
-                '}';
+        return new Gson().toJson(this);
     }
 }

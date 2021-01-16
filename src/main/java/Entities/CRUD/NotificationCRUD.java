@@ -28,7 +28,7 @@ public class NotificationCRUD implements ICRUD<Notification> {
     public Notification read(String ID) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Notification notification =  session.get(Notification.class, ID);
+        Notification notification = session.get(Notification.class, ID);
         session.getTransaction().commit();
         return notification;
     }
@@ -50,7 +50,8 @@ public class NotificationCRUD implements ICRUD<Notification> {
     @Override
     public void delete(String ID) {
         Session session = sessionFactory.getCurrentSession();
-        Notification notification = session.get(Notification.class, Integer.parseInt(ID));
+        session.beginTransaction();
+        Notification notification = session.get(Notification.class, ID);
         session.delete(notification);
         session.getTransaction().commit();
     }
